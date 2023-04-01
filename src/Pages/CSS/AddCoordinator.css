@@ -1,0 +1,48 @@
+.addcoordinator{
+    flex-direction: column;
+    width: 100%;
+}
+.addcoo{
+    width: 95%;
+}
+.addcoo > h3{
+    display: inline;
+
+}
+.addcooitem{
+    width: 50%;
+}
+.addcooitem>input{
+    width: 90%;
+    height: 2em;
+}
+.addcoodiv{
+    background-color: #fff;
+}
+.theButton{
+    background-color: #405189;
+    color: #fff;
+    border: 2px solid #405189;
+    border-radius: 5px;
+
+}
+@media only screen and (min-width: 900px){
+    .addcoo{
+        max-width: 80%;
+        margin-inline: 10px;
+
+    }
+    .addcooitem{
+        width: 33%;
+    }
+}
+@media only screen and (min-width: 1200px){
+    .addcoo{
+        max-width: 87%;
+        margin-inline: 10px;
+
+    }
+    .addcooitem{
+        width: 33%;
+    }
+}

@@ -1,0 +1,12 @@
+.dashCard{
+    width: 30%;
+    background-color: #fff;
+}
+.dashText{
+    opacity: 0.7;
+}
+.dashCount{
+    font-size: larger;
+    font-weight: 600;
+    display: inline;
+}

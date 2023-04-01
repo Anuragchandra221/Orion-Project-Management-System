@@ -1,0 +1,35 @@
+.dashboard{
+    width: 100%;
+    flex-direction: column;
+}
+.dashmain{
+    width: 100%;
+    margin-left: 0%;
+}
+.newContainer{
+    flex-direction: column;
+}
+.dashboardCard{
+    width: 100%;
+}
+@media only screen and (min-width:900px){
+    .dashboard{
+    
+        flex-direction: row;
+    }
+    .dashmain{
+        margin-left: 15%;
+    }
+    .newContainer{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+@media only screen and (min-width:1200px){
+    .dashmain{
+        margin-left: 10%;
+    }
+    .newContainer{
+        flex-direction: row;
+    }
+}

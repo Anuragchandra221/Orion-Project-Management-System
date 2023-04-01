@@ -1,0 +1,54 @@
+.landing{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background-color: #EAEDF2;
+}
+
+.landing-background{
+    background-image: url('../../assets/images/banner.png');
+    width: auto;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.landing-heading , .landing-text{
+    color: #fff;
+    margin-block: auto;
+    margin: 0;
+}
+.landing-heading{
+    font-weight: 600;
+}
+.orion{
+    color: #405189;
+    font-weight: 600;
+}
+.toLogin{
+    text-align: center;
+    position: absolute;
+    bottom: 35%;
+    left: 20%;
+    background-color: #fff;
+    width: 60%;
+    height: 30%;
+}
+.toLogin>img{
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+}
+.toLogin>h2{
+    width: fit-content;
+}
+@media only screen and (min-width:900px){
+    .toLogin{
+        width: 30%;
+        height: 30%;
+        bottom: 35%;
+        left: 35%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+}
