@@ -44,8 +44,8 @@ function New(props) {
         <div className='d-flex justify-content-between mx-3 mb-3'>
             <div><h3 className='newHeading'>Newly added {props.name}</h3></div>
             <div className='mr-2 mr-lg-0'>
-                <button className='tableButton mr-2 px-1 px-lg-3 '>View All</button>
-                <Link to={props.name==="Coordinators"?"/add-coordinator":""}><button className='tableButton mr-2 px-1 px-lg-3 '>Add New</button></Link>
+                <button className='tableButton mr-2 px-1 px-lg-3 ' style={{cursor: 'pointer'}} >View All</button>
+                <Link to={props.name==="Coordinators"?"/add-coordinator":""}><button className='tableButton mr-2 px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
             </div>
 
         </div>

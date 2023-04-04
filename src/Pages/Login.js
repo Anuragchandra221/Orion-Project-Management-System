@@ -1,7 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './CSS/Login.css'
+import axios from 'axios'
+import { get_token, login, set_user } from '../Utils/services'
+import { useNavigate } from 'react-router-dom'
+import jwt_decode from "jwt-decode";
 
 function Login() {
+
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+    const [err, setErr] = useState()
+
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        const token = get_token()
+        if(token){
+            if(jwt_decode(token).account_type=="admin"){
+                  navigate('/dashboard')
+            }
+        }
+      }, [])
+
+    const signin = ()=>{
+        if(email && password){
+            login(email, password).then((results)=>{
+                console.log(results.data)
+                set_user(results.data.access, results.data.refresh)
+                setErr()
+                if(jwt_decode(results.data.access).account_type=="admin"){
+                    navigate('/dashboard')
+                }
+                navigate("/dashboard")
+            }).catch((err)=>{
+                setErr("Invalid Username or Password")
+            })
+        }else{
+            setErr("Fill in the details")
+        }
+    }
+
   return (
     <div className='mx-auto d-flex justify-content-center align-items-center login '>
         <div className='text-center loginImg' >
@@ -18,15 +56,20 @@ function Login() {
                 <h4 className='loginHeading mb-3'>User Login</h4>
                 <label>Enter Email</label>
                 <div className='mb-3'>
-                    <input type="text" placeholder='Enter Email' className='loginInput' />
+                    <input type="text" placeholder='Enter Email' className='loginInput' onChange={(e)=>{
+                        setEmail(e.target.value)
+                    }} />
                 </div>
 
                 <label>Password</label>
                 <div>
-                    <input type="password" placeholder='Enter Password' className='loginInput' />
+                    <input type="password" placeholder='Enter Password' className='loginInput' onChange={(e)=>{
+                        setPassword(e.target.value)
+                    }} />
                 </div>
-                <p className='text-right mt-2'>Forgot Password?</p>
-                <button className='loginBtn'>Sign In</button>
+                {err?<p className='mt-3 ' style={{color: 'red'}}>{err}</p>:<></>}
+                <p className='text-right ' style={{cursor: 'pointer'}}>Forgot Password?</p>
+                <button className='loginBtn' style={{cursor: 'pointer'}} onClick={signin}>Sign In</button>
             </div>
         </div>
     </div>

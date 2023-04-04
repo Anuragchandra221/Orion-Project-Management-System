@@ -6,6 +6,16 @@
     flex-direction: column;
     
 }
+.logoutBtn{
+    cursor: pointer;
+    background-color: #405189;
+    border: none;
+    color: #fff;
+}
+.headingDiv{
+    width: fit-content;
+    margin-inline: auto;
+}
 .menus{
     display: flex;
     align-items: center;
