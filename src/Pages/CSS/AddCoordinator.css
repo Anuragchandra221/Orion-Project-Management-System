@@ -3,17 +3,17 @@
     width: 100%;
 }
 .addcoo{
-    width: 95%;
+    width: 98%;
 }
 .addcoo > h3{
     display: inline;
 
 }
 .addcooitem{
-    width: 50%;
+    width: 190%;
 }
 .addcooitem>input{
-    width: 90%;
+    width: 98%;
     height: 2em;
 }
 .addcoodiv{
@@ -33,7 +33,7 @@
 
     }
     .addcooitem{
-        width: 33%;
+        width: 50%;
     }
 }
 @media only screen and (min-width: 1200px){

@@ -25,13 +25,13 @@ function Login() {
     const signin = ()=>{
         if(email && password){
             login(email, password).then((results)=>{
-                console.log(results.data)
                 set_user(results.data.access, results.data.refresh)
                 setErr()
                 if(jwt_decode(results.data.access).account_type=="admin"){
                     navigate('/dashboard')
+                }else{
+                    setErr("You dont have the permission")
                 }
-                navigate("/dashboard")
             }).catch((err)=>{
                 setErr("Invalid Username or Password")
             })
