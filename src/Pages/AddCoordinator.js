@@ -13,15 +13,19 @@ function AddCoordinator() {
     const [gender, setGender] = useState("Male")
     const [password, setPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
+    const [register, setRegister] = useState()
+    const [load, setLoad] = useState(false)
 
     const navigate = useNavigate()
 
     const create = ()=>{
-        console.log("hih")
-        if(name && email && dob && password && confirmPassword && gender && number){
-            create_coordinator(name, email, dob, gender, number).then((results)=>{
+        setLoad(true)
+        console.log(load)
+        if(name && email && dob && password && confirmPassword && gender && number && register ){
+            create_coordinator(name, email, dob, gender, number, register).then((results)=>{
                 navigate("/dashboard")
             }).catch((err)=>{
+                setLoad(false)
             })
         }
     }
@@ -68,6 +72,12 @@ function AddCoordinator() {
                             }} />
                         </div>
                         <div className='mt-4 addcooitem'>
+                            <p className='mb-1'>Register Number</p>
+                            <input type="email" placeholder='Enter your register number...' onChange={(e)=>{
+                                setRegister(e.target.value)
+                            }} />
+                        </div>
+                        <div className='mt-4 addcooitem'>
                             <p className='mb-1'>Phone number</p>
                             <input type="number" placeholder='Enter your number' onChange={(e)=>{
                                 setNumber(e.target.value)
@@ -87,8 +97,8 @@ function AddCoordinator() {
                         </div>
                     </div>
                     <div className='w-100 d-flex justify-content-end mt-3'>
-                        <button className='mr-2 theButton py-1' style={{width:'14em', cursor:'pointer'}} onClick={create} >Create Account</button>
-                        <button className='py-1' style={{width:'10em'}}>Cancel</button>
+                        <button className='mr-2 theButton py-1' style={load?{width:'14em', cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{width:'14em', cursor:'pointer'}}  onClick={create} >Create Account</button>
+                        <button className='py-1' style={{width:'10em', backgroundColor: '#c0c0c0', border: '2px solid #c0c0c0', borderRadius: '10px'}} onClick={()=>console.log(load)} >Cancel</button>
                     </div>
                 </div>
             </div>

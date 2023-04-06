@@ -6,38 +6,6 @@ import { Link } from 'react-router-dom'
 
 function New(props) {
 
-    const data = [
-        {
-            'name':'anurag',
-            'reg':"vas30",
-            'email':'pothaluranurag2002@gmail.com',
-            'phone':'7012597830'
-        },
-        {
-            'name':'anurag',
-            'reg':"vas30",
-            'email':'pothaluranurag2002@gmaidfsdfsdf fsfsdfsdfsl.com',
-            'phone':'7012597830'
-        },
-        {
-            'name':'anurag',
-            'reg':"vas30",
-            'email':'pothaluranurag2002@gmaidfsdfsdf fsfsdfsdfsl.com',
-            'phone':'7012597830'
-        },
-        {
-            'name':'anurag',
-            'reg':"vas30",
-            'email':'pothaluranurag2002@gmaidfsdfsdf fsfsdfsdfsl.com',
-            'phone':'7012597830'
-        },
-        {
-            'name':'anurag',
-            'reg':"vas30",
-            'email':'pothaluranurag2002@gmaidfsdfsdf fsfsdfsdfsl.com',
-            'phone':'7012597830'
-        }
-    ]
 
   return (
     <div className='new d-flex justify-content-center aligin-items-center py-3 mx-1 mx-lg-4'>
@@ -56,7 +24,7 @@ function New(props) {
                 <div className='item heading'>Email</div>
                 <div className='item heading'>Phone</div>
                 <div className='item heading'>Action</div>
-                            {data.map((obj, index) => (
+                            {props.data?props.data.map((obj, index) => (
                                 <React.Fragment key={index}>
                                 {Object.values(obj).map((value, index) => (
                                     <div key={index} className="item">{value}</div>
@@ -65,7 +33,7 @@ function New(props) {
                                     <button style={{border: 'none',backgroundColor: '#fff'}}><FontAwesomeIcon icon={faPen} /></button>
                                 </div>
                                 </React.Fragment>
-                            ))}
+                            )):''}
             </div>
         </div>
     </div>

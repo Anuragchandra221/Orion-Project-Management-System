@@ -5,20 +5,34 @@ import DashboardCard from '../Components/DashboardCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faUser } from '@fortawesome/free-solid-svg-icons'
 import New from '../Components/New'
-import { get_token, update_token } from '../Utils/services'
+import { get_coordinator, get_count, get_token, update_token } from '../Utils/services'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { set_user } from '../Utils/services'
 
 function Dashboard() {
   const navigate = useNavigate()
   const time = 1*60*1000
-
+  const [no, setNo] = useState()
+  const [cData, setCData] = useState()
   const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
     if(!get_token()){
       navigate('/login')
     }else{
+      get_count().then((results)=>{
+        setNo(results.data.admin)
+        setLoading(false)
+      }).catch((err)=>{
+        if(err.request.status == 401){
+          localStorage.removeItem("token")
+          localStorage.removeItem("refresh")
+        }
+      })
+      get_coordinator().then((results)=>{
+        console.log(results.data)
+        setCData(results.data)
+      })
       let interval = setInterval(()=>{
           update_token().then((results)=>{
             set_user(results.data.access, results.data.refresh)
@@ -27,7 +41,6 @@ function Dashboard() {
             console.log(err)
           })
       },time)
-      console.log('updated')
       return ()=>clearInterval(interval)
     }
   }, [loading])
@@ -39,14 +52,17 @@ function Dashboard() {
         <DashSideBar />
       </div>
       <div className='dashmain '>
+        {!loading?
         <div className='d-flex align-items-start mt-3 dashboardCard'>
-          <DashboardCard name="Students" count="8854985" icon={<FontAwesomeIcon icon={faUser}/> } />
-          <DashboardCard name="Coordinators" count="8854985" icon={<FontAwesomeIcon icon={faGauge}/> } />
-          <DashboardCard name="Guides" count="8854985" icon={<FontAwesomeIcon icon={faPersonChalkboard}/> } />
-        </div>
+        <DashboardCard name="Students" count={no[3]?no[3].count: 0} icon={<FontAwesomeIcon icon={faUser}/> } />
+        <DashboardCard name="Coordinators" count={no[1]?no[1].count: 0} icon={<FontAwesomeIcon icon={faGauge}/> } />
+        <DashboardCard name="Guides" count={no[2]?no[2].count: 0} icon={<FontAwesomeIcon icon={faPersonChalkboard}/> } />
+      </div>
+        :<></>}
+        
         <div className='d-flex mt-3 newContainer'>
           <New name="Students" />
-          <New name="Coordinators" />
+          <New name="Coordinators" data={cData?cData:[]} />
           <New name="Guides" />
         </div>
       </div>
