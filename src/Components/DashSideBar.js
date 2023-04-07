@@ -2,7 +2,7 @@ import React from 'react'
 import './DashSideBar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function DashSideBar() {
 
@@ -20,7 +20,7 @@ function DashSideBar() {
         <div className='menus'>
             <div className='sidebarItem mt-3 mt-lg-5'>
                 <FontAwesomeIcon icon={faGauge}/> 
-                <p className='sidebarText ml-2'>Dashboard</p>
+                <Link to="/dashboard"><p className='sidebarText ml-2 mb-0' style={{cursor: 'pointer', color: '#fff'}}>Dashboard</p></Link>
             </div>
             <div className='sidebarItem mt-3 mt-lg-5'>
                 <FontAwesomeIcon icon={faUser}/> 

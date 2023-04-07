@@ -8,7 +8,7 @@
 }
 .newHeading{
     font-size: large;
-    max-width: 180px;
+    /* max-width: 180px; */
 }
 .gridContainer{
     display: grid;
