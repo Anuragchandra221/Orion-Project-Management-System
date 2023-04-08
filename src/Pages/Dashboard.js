@@ -12,8 +12,8 @@ import { CirclesWithBar } from 'react-loader-spinner'
 
 function Dashboard() {
   const navigate = useNavigate()
-  const time = 1*60*1000
-  const [no, setNo] = useState()
+  const time = 9*60*1000
+  const [no, setNo] = useState([])
   const [cData, setCData] = useState()
   const [loading, setLoading] = useState(true)
 
@@ -22,6 +22,7 @@ function Dashboard() {
       if(get_token()){
         update_token().then((results)=>{
           set_user(results.data.access, results.data.refresh)
+          setLoading(false)
           
         }).catch((err)=>{
           // console.log(err)
@@ -88,8 +89,8 @@ function Dashboard() {
         
         <div className='d-flex mt-3 newContainer'>
           <New name="Students" />
-          <New name="Coordinators" data={cData?cData:[]} />
           <New name="Guides" />
+          <New name="Coordinators" data={cData?cData:[]} />
         </div>
       </div>
     </div>

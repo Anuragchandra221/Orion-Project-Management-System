@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/api/"
+const BASE_URL = "https://orion-management-backend-production.up.railway.app/api/"
 const LOGIN_URL = 'token/'
 const REFRESH_TOKEN = "token/refresh/"
 const CREATE_COORDINATOR = "create-coordinator/"

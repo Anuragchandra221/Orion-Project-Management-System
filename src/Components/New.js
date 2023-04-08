@@ -8,7 +8,7 @@ function New(props) {
 
 
   return (
-    <div className='new d-flex justify-content-center aligin-items-center py-3 mx-1 mx-lg-4'>
+    <div className='new d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4' style={{maxHeight: '300px', overflowY: 'scroll'}}>
         <div className='d-flex justify-content-between mx-3 mb-3'>
             <div><h3 className='newHeading'>Newly added {props.name}</h3></div>
             <div className='mr-2 mr-lg-0'>
