@@ -7,7 +7,8 @@
     margin-left: 0px;
 }
 .newHeading{
-    font-size: large;
+    font-size: medium;
+    font-weight: 500;
     /* max-width: 180px; */
 }
 .gridContainer{
@@ -35,6 +36,10 @@
         background-color: #fff;
         flex-direction: column;
         overflow-x: scroll;
+    }
+    .newHeading{
+        font-size: large;
+        /* max-width: 180px; */
     }
 }
 @media only screen and (min-width:1200px){
