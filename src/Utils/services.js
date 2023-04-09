@@ -1,4 +1,4 @@
-import { BASE_URL, CREATE_COORDINATOR, GET_COORDINATOR, GET_COUNT, LOGIN_URL, REFRESH_TOKEN } from "./constants";
+import { BASE_URL, CREATE_COORDINATOR, GET_COORDINATOR, GET_COUNT, LOGIN_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -52,4 +52,19 @@ const get_coordinator = ()=>{
     })
 }
 
-export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator}
+const password_reset_confirm = (email)=>{
+    return axios.post(`${BASE_URL}${RESET_PASSWORD_CONFIRM}`,{
+        "email": email
+    })
+}
+
+const password_reset = (email, password)=>{
+    return axios.post(`${BASE_URL}${RESET_PASSWORD}`,{
+        "email": email,
+        "password": password
+    })
+}
+
+
+
+export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset}

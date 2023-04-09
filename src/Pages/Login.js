@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './CSS/Login.css'
 import axios from 'axios'
 import { get_token, login, set_user } from '../Utils/services'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import jwt_decode from "jwt-decode";
 
 function Login() {
@@ -68,7 +68,7 @@ function Login() {
                     }} />
                 </div>
                 {err?<p className='mt-3 ' style={{color: 'red'}}>{err}</p>:<></>}
-                <p className='text-right ' style={{cursor: 'pointer'}}>Forgot Password?</p>
+                <p className='text-right mt-2' style={{cursor: 'pointer'}}><Link to="/forgot_password">Forgot Password?</Link></p>
                 <button className='loginBtn' style={{cursor: 'pointer'}} onClick={signin}>Sign In</button>
             </div>
         </div>
