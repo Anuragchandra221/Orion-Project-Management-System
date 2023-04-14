@@ -7,6 +7,8 @@ import Dashboard from './Pages/Dashboard';
 import AddCoordinator from './Pages/AddCoordinator';
 import ResetPassword from './Pages/ResetPassword';
 import ResetPasswordConfirm from './Pages/ResetPasswordConfirm';
+import AddGuide from './Pages/AddGuide';
+import AddStudent from './Pages/AddStudent';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/add-coordinator" element={<AddCoordinator/>} />
+        <Route path="/add-student" element={<AddStudent/>} />
+        <Route path="/add-guide" element={<AddGuide/>} />
         <Route path="/forgot_password" element={<ResetPasswordConfirm/>} />
         <Route path="/forgot_password/:str" element={<ResetPassword/>} />
       </Routes>

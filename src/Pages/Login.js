@@ -16,7 +16,8 @@ function Login() {
     useEffect(()=>{
         const token = get_token()
         if(token){
-            if(jwt_decode(token).account_type=="admin"){
+            if(jwt_decode(token).account_type=="admin" || jwt_decode(token).account_type=="coordinator"){
+                    
                   navigate('/dashboard')
             }
         }
@@ -27,7 +28,7 @@ function Login() {
             login(email, password).then((results)=>{
                 set_user(results.data.access, results.data.refresh)
                 setErr()
-                if(jwt_decode(results.data.access).account_type=="admin"){
+                if(jwt_decode(results.data.access).account_type=="admin" || jwt_decode(results.data.access).account_type=="coordinator"){
                     navigate('/dashboard')
                 }else{
                     setErr("You dont have the permission")

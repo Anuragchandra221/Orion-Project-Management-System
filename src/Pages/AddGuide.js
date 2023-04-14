@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import DashSideBar from '../Components/DashSideBar'
 import './CSS/AddCoordinator.css'
-import { create_coordinator } from '../Utils/services'
+import { create_guide } from '../Utils/services'
 import './CSS/Dashboard.css'
-import { get_coordinator, get_count, get_token, update_token } from '../Utils/services'
+import { get_token, update_token } from '../Utils/services'
 import { useNavigate } from 'react-router-dom'
 import { set_user } from '../Utils/services'
 import jwt_decode from "jwt-decode";
 
-function AddCoordinator() {
-
+function AddGuide() {
     const time = 9*60*1000
 
     const [name, setName] = useState()
@@ -64,7 +63,7 @@ function AddCoordinator() {
         console.log(load)
         if(name && email && dob && password && confirmPassword && gender && number && register ){
 
-            create_coordinator(name, email, dob, gender, number, register, password).then((results)=>{
+            create_guide(name, email, dob, gender, number, register, password).then((results)=>{
                 navigate("/dashboard")
             }).catch((err)=>{
                 setLoad(false)
@@ -80,8 +79,8 @@ function AddCoordinator() {
         <div className='dashmain'>
             <div className='addcoo mt-5 mx-1 mx-lg-0 ml-lg-3 mb-4'>
                 <div className='d-flex justify-content-between px-3'>
-                        <h3>Add Coordinator</h3>
-                        <button className='theButton' style={{width:'9em'}}>Coordinator list</button>
+                        <h3>Add Guide</h3>
+                        <button className='theButton' style={{width:'9em'}}>Guide list</button>
                     
                 </div>
                 <div className='w-100 addcoodiv px-3 py-3 mt-3 mx-auto'>
@@ -150,4 +149,4 @@ function AddCoordinator() {
   )
 }
 
-export default AddCoordinator
+export default AddGuide

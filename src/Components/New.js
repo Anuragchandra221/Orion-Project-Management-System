@@ -13,7 +13,10 @@ function New(props) {
             <div><h3 className='newHeading'>Newly added {props.name}</h3></div>
             <div className='mr-2 mr-lg-0'>
                 <button className='tableButton mr-2 px-1 px-lg-3 ' style={{cursor: 'pointer'}} >View All</button>
-                <Link to={props.name==="Coordinators"?"/add-coordinator":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
+                {props.name=="Students" && props.account_type=="coordinator"?<Link to={props.name==="Students"?"/add-student":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>:<></>}
+                {props.name=="Guides" && props.account_type=="coordinator"?<Link to={props.name==="Guides"?"/add-guide":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>:<></>}
+                {props.name=="Coordinators" && props.account_type=="admin"?<Link to={props.name==="Coordinators"?"/add-coordinator":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>:<></>}
+                
             </div>
 
         </div>
