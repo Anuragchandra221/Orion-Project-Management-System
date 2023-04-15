@@ -26,7 +26,6 @@ function AddGuide() {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        console.log(account_type)
         if (loading){
           if(get_token()){
             update_token().then((results)=>{
@@ -61,7 +60,7 @@ function AddGuide() {
     const create = ()=>{
         setLoad(true)
         console.log(load)
-        if(name && email && dob && password && confirmPassword && gender && number && register ){
+        if(name && email && dob && password && confirmPassword && gender && number && register && password==confirmPassword ){
 
             create_guide(name, email, dob, gender, number, register, password).then((results)=>{
                 navigate("/dashboard")

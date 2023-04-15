@@ -12,7 +12,13 @@ function New(props) {
         <div className='d-flex justify-content-between mx-3 mb-3'>
             <div><h3 className='newHeading'>Newly added {props.name}</h3></div>
             <div className='mr-2 mr-lg-0'>
-                <button className='tableButton mr-2 px-1 px-lg-3 ' style={{cursor: 'pointer'}} >View All</button>
+                
+
+                {props.name=="Students" && (props.account_type=="coordinator" || props.account_type=="admin" || props.account_type=="admin" )?<Link to={props.name==="Students"?"/view-student":""}><button className='tableButton mr-2 px-1 px-lg-3 ' style={{cursor: 'pointer'}} >View All</button></Link>:<></>}
+                {props.name=="Guides" && (props.account_type=="coordinator" || props.account_type=="admin" )?<Link to={props.name==="Guides"?"/view-guide":""}><button className='tableButton mr-2 px-1 px-lg-3 ' style={{cursor: 'pointer'}} >View All</button></Link>:<></>}
+                {props.name=="Coordinators" && props.account_type=="admin"?<Link to={props.name==="Coordinators"?"/view-coordinator":""}><button className='tableButton mr-2 px-1 px-lg-3 ' style={{cursor: 'pointer'}} >View All</button></Link>:<></>}
+
+
                 {props.name=="Students" && props.account_type=="coordinator"?<Link to={props.name==="Students"?"/add-student":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>:<></>}
                 {props.name=="Guides" && props.account_type=="coordinator"?<Link to={props.name==="Guides"?"/add-guide":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>:<></>}
                 {props.name=="Coordinators" && props.account_type=="admin"?<Link to={props.name==="Coordinators"?"/add-coordinator":""}><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>:<></>}

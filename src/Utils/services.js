@@ -1,4 +1,4 @@
-import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, LOGIN_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM } from "./constants";
+import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_STUDENT, LOGIN_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -54,6 +54,24 @@ const create_guide = (name, email, dob, gender, number, register, password)=>{
     })
 }
 
+const create_student = (name, email, dob, gender, number, register, password)=>{
+    return axios.post(`${BASE_URL}${CREATE_STUDENT}`,{
+        'email':email,
+        'name':name,
+        'password':password,
+        "account_type":"student",
+        'dob':dob,
+        "gender":gender,
+        "number":number,
+        "register":register,
+    },
+    {
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
 const get_count = ()=>{
     return axios.get(`${BASE_URL}${GET_COUNT}`,{
         headers: {
@@ -64,6 +82,14 @@ const get_count = ()=>{
 
 const get_coordinator = ()=>{
     return axios.get(`${BASE_URL}${GET_COORDINATOR}`,{
+        headers: {
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+const get_student = ()=>{
+    return axios.get(`${BASE_URL}${GET_STUDENT}`,{
         headers: {
             'Authorization': `Bearer ${get_token()}`
         }
@@ -93,4 +119,4 @@ const password_reset = (email, password)=>{
 
 
 
-export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide}
+export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student}

@@ -5,8 +5,8 @@ import DashboardCard from '../Components/DashboardCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faUser } from '@fortawesome/free-solid-svg-icons'
 import New from '../Components/New'
-import { get_coordinator, get_count, get_guide, get_token, update_token } from '../Utils/services'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { get_coordinator, get_count, get_guide, get_student, get_token, update_token } from '../Utils/services'
+import { useNavigate } from 'react-router-dom'
 import { set_user } from '../Utils/services'
 import { CirclesWithBar } from 'react-loader-spinner'
 import jwt_decode from "jwt-decode";
@@ -17,11 +17,11 @@ function Dashboard() {
   const [no, setNo] = useState([])
   const [cData, setCData] = useState()
   const [gData, setGData] = useState()
+  const [sData, setSData] = useState()
   const [loading, setLoading] = useState(true)
   const [account_type, setAccountType] = useState('')
 
   useEffect(()=>{
-    console.log(account_type)
     if (loading){
       if(get_token()){
         update_token().then((results)=>{
@@ -49,12 +49,19 @@ function Dashboard() {
           localStorage.removeItem("refresh")
         }
       })
+
       get_coordinator().then((results)=>{
         setCData(results.data)
       })
+
       get_guide().then((results)=>{
         setGData(results.data)
       })
+      
+      get_student().then((results)=>{
+        setSData(results.data)
+      })
+
       let interval = setInterval(()=>{
           update_token().then((results)=>{
             set_user(results.data.access, results.data.refresh)
@@ -96,7 +103,7 @@ function Dashboard() {
         </div>
         
         <div className='d-flex mt-3 newContainer'>
-          <New name="Students" account_type={account_type} />
+          <New name="Students" data={sData?sData:[]} account_type={account_type} />
           <New name="Guides" data={gData?gData:[]} account_type={account_type} />
           {account_type=="admin"?<New name="Coordinators" account_type={account_type} data={cData?cData:[]} />:<></>}
         </div>
