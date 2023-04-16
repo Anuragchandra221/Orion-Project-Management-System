@@ -68,7 +68,7 @@ function ViewStudent() {
                 <div className='dashmain mt-5'>
                 <div className='view d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4'>
                     <div className='d-flex justify-content-between mx-3 mb-3'>
-                        <div><h3 className='newHeading'>Newly added Coordinators</h3></div>
+                        <div><h3 className='newHeading'>Newly added Students</h3></div>
                         <div className='mr-2 mr-lg-0'>
                             <Link to="/add-coordinator"><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
                             

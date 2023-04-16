@@ -11,6 +11,9 @@ import AddGuide from './Pages/AddGuide';
 import AddStudent from './Pages/AddStudent';
 import ViewCoordinator from './Pages/ViewCoordinator';
 import ViewStudent from './Pages/ViewStudent';
+import ViewGuide from './Pages/ViewGuide';
+import EditAccount from './Pages/EditAccount';
+import EditGuide from './Pages/EditGuide';
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
         <Route path="/add-student" element={<AddStudent/>} />
         <Route path="/view-student" element={<ViewStudent/>} />
         <Route path="/add-guide" element={<AddGuide/>} />
+        <Route path="/view-guide" element={<ViewGuide/>} />
+        <Route path="/edit-coordinator/:str" element={<EditAccount/>} />
+        <Route path="/edit-account/:str" element={<EditGuide/>} />
         <Route path="/forgot_password" element={<ResetPasswordConfirm/>} />
         <Route path="/forgot_password/:str" element={<ResetPassword/>} />
       </Routes>

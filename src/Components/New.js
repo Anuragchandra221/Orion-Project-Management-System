@@ -5,6 +5,13 @@ import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
 function New(props) {
+    let to=""
+
+    if(props.name=="Coordinators"){
+        to="/edit-coordinator/"
+    }else{
+        to="/edit-account/"
+    }
 
 
   return (
@@ -38,8 +45,8 @@ function New(props) {
                                 {Object.values(obj).map((value, index) => (
                                     <div key={index} className="item">{value}</div>
                                 ))}
-                                <div className='item'>
-                                    <button style={{border: 'none',backgroundColor: '#fff'}}><FontAwesomeIcon icon={faPen} /></button>
+                                <div className='item text-center'>
+                                    <Link to={`${to}${obj.email}`}><button disabled={(props.name=="Coordinators" && props.account_type=="admin")||(props.name=="Guides" && props.account_type=="coordinator")||(props.name=="Students" && props.account_type=="coordinator")?false:true} style={{border: 'none',backgroundColor: '#fff', cursor: 'pointer'}}><FontAwesomeIcon icon={faPen} /></button></Link>
                                 </div>
                                 </React.Fragment>
                             )):''}

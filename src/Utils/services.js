@@ -1,4 +1,5 @@
-import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_STUDENT, LOGIN_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM } from "./constants";
+
+import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_STUDENT, GET_USER, LOGIN_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -104,6 +105,48 @@ const get_guide = ()=>{
     })
 }
 
+const get_user = (email)=>{
+    return axios.post(`${BASE_URL}${GET_USER}`,{
+        'email': email,
+    },{
+        headers: {
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+const edit = (name, email, dob, gender, number, register)=>{
+    return axios.post(`${BASE_URL}${EDIT}`,{
+        'email':email,
+        'name':name,
+        'dob':dob,
+        "gender":gender,
+        "number":number,
+        "register":register,
+    },
+    {
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+const edit_guide = (name, email, dob, gender, number, register)=>{
+    return axios.post(`${BASE_URL}${EDIT_GUIDE}`,{
+        'email':email,
+        'name':name,
+        'dob':dob,
+        "gender":gender,
+        "number":number,
+        "register":register,
+    },
+    {
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
 const password_reset_confirm = (email)=>{
     return axios.post(`${BASE_URL}${RESET_PASSWORD_CONFIRM}`,{
         "email": email
@@ -119,4 +162,4 @@ const password_reset = (email, password)=>{
 
 
 
-export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student}
+export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide}

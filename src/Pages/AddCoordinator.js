@@ -3,7 +3,7 @@ import DashSideBar from '../Components/DashSideBar'
 import './CSS/AddCoordinator.css'
 import { create_coordinator } from '../Utils/services'
 import './CSS/Dashboard.css'
-import { get_coordinator, get_count, get_token, update_token } from '../Utils/services'
+import { get_token, update_token } from '../Utils/services'
 import { useNavigate } from 'react-router-dom'
 import { set_user } from '../Utils/services'
 import jwt_decode from "jwt-decode";
@@ -15,6 +15,7 @@ function AddCoordinator() {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [number, setNumber] = useState()
+    const [err, setErr] = useState()
     const [dob, setDob] = useState()
     const [gender, setGender] = useState("Male")
     const [password, setPassword] = useState()
@@ -27,6 +28,9 @@ function AddCoordinator() {
     const navigate = useNavigate()
 
     useEffect(()=>{
+        if(account_type!=='' && account_type!=="admin"){
+            navigate("/dashboard")
+        }
         if (loading){
           if(get_token()){
             update_token().then((results)=>{
@@ -61,13 +65,27 @@ function AddCoordinator() {
     const create = ()=>{
         setLoad(true)
         console.log(load)
-        if(name && email && dob && password && confirmPassword && gender && number && register && password==confirmPassword ){
+        if(name && email && dob && password && confirmPassword && gender && number && register){
+            if( password==confirmPassword ){
 
-            create_coordinator(name, email, dob, gender, number, register, password).then((results)=>{
-                navigate("/dashboard")
-            }).catch((err)=>{
+                create_coordinator(name, email, dob, gender, number, register, password).then((results)=>{
+                    if(results.data.err){
+                        setErr(results.data.err)
+                        setLoad(false)
+                    }else{
+                        navigate("/dashboard")
+                    }
+                }).catch((err)=>{
+                    setLoad(false)
+                })
+            }else{
+                setErr("Passwords do not match")
                 setLoad(false)
-            })
+            }
+
+        }else{
+            setErr("Fill all the fields")
+            setLoad(false)
         }
     }
 
@@ -114,7 +132,7 @@ function AddCoordinator() {
                         </div>
                         <div className='mt-4 addcooitem'>
                             <p className='mb-1'>Register Number</p>
-                            <input type="email" placeholder='Enter your register number...' onChange={(e)=>{
+                            <input type="text" placeholder='Enter your register number...' onChange={(e)=>{
                                 setRegister(e.target.value)
                             }} />
                         </div>
@@ -137,7 +155,9 @@ function AddCoordinator() {
                             }} />
                         </div>
                     </div>
+                    
                     <div className='w-100 d-flex justify-content-end mt-3'>
+                        {err?<p className='mr-3 text-danger mb-0 mt-1'>{err}</p>:<></>}
                         <button className='mr-2 theButton py-1' style={load?{width:'14em', cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{width:'14em', cursor:'pointer'}}  onClick={create} >Create Account</button>
                         <button className='py-1 mr-0 mr-lg-3' style={{width:'10em', backgroundColor: '#c0c0c0', border: '2px solid #c0c0c0', borderRadius: '10px'}} onClick={()=>console.log(load)} >Cancel</button>
                     </div>

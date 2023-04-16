@@ -24,15 +24,15 @@ function DashSideBar() {
             </div>
             <div className='sidebarItem mt-3 mt-lg-5'>
                 <FontAwesomeIcon icon={faUser}/> 
-                <p className='sidebarText ml-2'>Students</p>
+                <Link to="/view-student"><p className='sidebarText ml-2 mb-0' style={{cursor: 'pointer', color: '#fff'}}>Students</p></Link>
             </div>
             <div className='sidebarItem mt-3 mt-lg-5'>
                 <FontAwesomeIcon icon={faUser}/> 
-                <p className='sidebarText ml-2'>Coordinator</p>
+                <Link to="/view-coordinator"><p className='sidebarText ml-2 mb-0' style={{cursor: 'pointer', color: '#fff'}}>Coordinator</p></Link>
             </div>
             <div className='sidebarItem mt-3 mt-lg-5'>
                 <FontAwesomeIcon icon={faPersonChalkboard}/> 
-                <p className='sidebarText ml-2'>Guide</p>
+                <Link to="/view-guide"><p className='sidebarText ml-2 mb-0' style={{cursor: 'pointer', color: '#fff'}}>Guide</p></Link>
             </div>
         </div>
     </div>
