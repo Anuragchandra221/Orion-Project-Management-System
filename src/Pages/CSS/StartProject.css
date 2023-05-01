@@ -1,0 +1,13 @@
+.project{
+    flex-direction: column;
+}
+.projectitem{
+    width: 50em;
+}
+.projectitem>input{
+    width: 98%;
+    height: 2em;
+}
+.projectitem>textarea{
+    width: 98%;
+}

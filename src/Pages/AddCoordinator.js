@@ -64,7 +64,6 @@ function AddCoordinator() {
 
     const create = ()=>{
         setLoad(true)
-        console.log(load)
         if(name && email && dob && password && confirmPassword && gender && number && register){
             if( password==confirmPassword ){
 

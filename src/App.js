@@ -14,6 +14,7 @@ import ViewStudent from './Pages/ViewStudent';
 import ViewGuide from './Pages/ViewGuide';
 import EditAccount from './Pages/EditAccount';
 import EditGuide from './Pages/EditGuide';
+import StartProject from './Pages/StartProject';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/edit-account/:str" element={<EditGuide/>} />
         <Route path="/forgot_password" element={<ResetPasswordConfirm/>} />
         <Route path="/forgot_password/:str" element={<ResetPassword/>} />
+        <Route path="/startProject" element={<StartProject/>} />
       </Routes>
     </BrowserRouter>
   );

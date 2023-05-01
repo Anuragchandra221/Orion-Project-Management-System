@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faUser } from '@fortawesome/free-solid-svg-icons'
 import New from '../Components/New'
 import { get_coordinator, get_count, get_guide, get_student, get_token, update_token } from '../Utils/services'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { set_user } from '../Utils/services'
 import { CirclesWithBar } from 'react-loader-spinner'
 import jwt_decode from "jwt-decode";
@@ -101,6 +101,12 @@ function Dashboard() {
               />
           </div>}
         </div>
+        <Link to="/startProject">
+          <div className='text-right p-2 m-2'>
+            <button className='theButton' style={{width:'9em'}}>Start Project</button>
+          </div>
+        </Link>
+        
         
         <div className='d-flex mt-3 newContainer'>
           <New name="Students" data={sData?sData:[]} account_type={account_type} />
