@@ -74,48 +74,53 @@ function Dashboard() {
     }
   }, [loading])
 
+  if(account_type && (account_type!="guide" && account_type!="student")){
+    return (
+      <div className='dashboard d-flex' >
+        <div className='dashmain '>
+          <div style={{position: 'relative'}}>
   
-  return (
-    <div className='dashboard d-flex' >
-      <div>
-        <DashSideBar />
-      </div>
-      <div className='dashmain '>
-        <div style={{position: 'relative'}}>
-
-          {!loading?
-          <div className='d-flex align-items-start mt-3 dashboardCard'>
-          <DashboardCard name="Students" count={no[3]?no[3].count: 0} icon={<FontAwesomeIcon icon={faUser}/> } />
-          <DashboardCard name="Coordinators" count={no[1]?no[1].count: 0} icon={<FontAwesomeIcon icon={faGauge}/> } />
-          <DashboardCard name="Guides" count={no[2]?no[2].count: 0} icon={<FontAwesomeIcon icon={faPersonChalkboard}/> } />
-        </div>
-          :<div style={{ position: "absolute", top: "130%", left: "50%", transform: "" }}>
-              <CirclesWithBar
-                height="80"
-                width="80"
-                radius="9"
-                color="#405189"
-                ariaLabel="loading"
-                wrapperStyle
-                wrapperClass
-              />
-          </div>}
-        </div>
-        <Link to="/startProject">
+            {!loading?
+            <div className='d-flex align-items-start mt-3 dashboardCard'>
+            <DashboardCard name="Students" count={no[3]?no[3].count: 0} icon={<FontAwesomeIcon icon={faUser}/> } />
+            <DashboardCard name="Coordinators" count={no[1]?no[1].count: 0} icon={<FontAwesomeIcon icon={faGauge}/> } />
+            <DashboardCard name="Guides" count={no[2]?no[2].count: 0} icon={<FontAwesomeIcon icon={faPersonChalkboard}/> } />
+          </div>
+            :<div style={{ position: "absolute", top: "130%", left: "50%", transform: "" }}>
+                <CirclesWithBar
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#405189"
+                  ariaLabel="loading"
+                  wrapperStyle
+                  wrapperClass
+                />
+            </div>}
+          </div>
+          {account_type=="coordinator"?
+          <Link to="/startProject">
           <div className='text-right p-2 m-2'>
-            <button className='theButton' style={{width:'9em'}}>Start Project</button>
+            <button className='theButton' style={{width:'9em', cursor: 'pointer'}}>Start Project</button>
           </div>
         </Link>
-        
-        
-        <div className='d-flex mt-3 newContainer'>
-          <New name="Students" data={sData?sData:[]} account_type={account_type} />
-          <New name="Guides" data={gData?gData:[]} account_type={account_type} />
-          {account_type=="admin"?<New name="Coordinators" account_type={account_type} data={cData?cData:[]} />:<></>}
+          :<></>}
+          
+          
+          
+          <div className='d-flex mt-3 newContainer'>
+            <New name="Students" data={sData?sData:[]} account_type={account_type} />
+            <New name="Guides" data={gData?gData:[]} account_type={account_type} />
+            {account_type=="admin"?<New name="Coordinators" account_type={account_type} data={cData?cData:[]} />:<></>}
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }else if(account_type==''){
+    navigate("/login")
+  }else{
+    navigate("/dashboardg")
+  }
 }
 
 export default Dashboard

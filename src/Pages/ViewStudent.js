@@ -62,9 +62,6 @@ function ViewStudent() {
       }else{
         return (
             <div className='dashboard d-flex' >
-                <div>
-                    <DashSideBar />
-                </div>
                 <div className='dashmain mt-5'>
                 <div className='view d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4'>
                     <div className='d-flex justify-content-between mx-3 mb-3'>

@@ -20,9 +20,7 @@ function ViewCoordinator() {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if(account_type!=='' && account_type!=="admin"){
-            navigate("/login")
-        }
+        
         if (loading){
           if(get_token()){
             update_token().then((results)=>{
@@ -60,45 +58,48 @@ function ViewCoordinator() {
       if(loading){
 
       }else{
-        return (
-            <div className='dashboard d-flex' >
-                <div>
-                    <DashSideBar />
-                </div>
-                <div className='dashmain mt-5'>
-                <div className='view d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4'>
-                    <div className='d-flex justify-content-between mx-3 mb-3'>
-                        <div><h3 className='newHeading'>Newly added Coordinators</h3></div>
-                        <div className='mr-2 mr-lg-0'>
-                            <Link to="/add-coordinator"><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
-                            
-                        </div>
-            
-                    </div>
-                    <div>
-                        <div className='gridContainer mx-3'>
-                            <div className='item heading'>Name</div>
-                            <div className='item heading'>Register Number</div>
-                            <div className='item heading'>Email</div>
-                            <div className='item heading'>Phone</div>
-                            <div className='item heading'>Action</div>
-                                        {cData?cData.map((obj, index) => (
-                                            <React.Fragment key={index}>
-                                            {Object.values(obj).map((value, index) => (
-                                                <div key={index} className="item">{value}</div>
-                                            ))}
-                                            <div className='item'>
-                                                <button style={{border: 'none',backgroundColor: '#fff'}}><FontAwesomeIcon icon={faPen} /></button>
-                                            </div>
-                                            </React.Fragment>
-                                        )):''}
-                        </div>
-                    </div>
-                </div>
-                </div>
-                
-            </div>
-          )
+        if(account_type=="admin" || account_type=="coordinator"){
+          return (
+              <div className='dashboard d-flex' >
+                  <div className='dashmain mt-5'>
+                  <div className='view d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4'>
+                      <div className='d-flex justify-content-between mx-3 mb-3'>
+                          <div><h3 className='newHeading'>Newly added Coordinators</h3></div>
+                          <div className='mr-2 mr-lg-0'>
+                              <Link to="/add-coordinator"><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
+                              
+                          </div>
+              
+                      </div>
+                      <div>
+                          <div className='gridContainer mx-3'>
+                              <div className='item heading'>Name</div>
+                              <div className='item heading'>Register Number</div>
+                              <div className='item heading'>Email</div>
+                              <div className='item heading'>Phone</div>
+                              <div className='item heading'>Action</div>
+                                          {cData?cData.map((obj, index) => (
+                                              <React.Fragment key={index}>
+                                              {Object.values(obj).map((value, index) => (
+                                                  <div key={index} className="item">{value}</div>
+                                              ))}
+                                              <div className='item'>
+                                                  <button style={{border: 'none',backgroundColor: '#fff'}}><FontAwesomeIcon icon={faPen} /></button>
+                                              </div>
+                                              </React.Fragment>
+                                          )):''}
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+                  
+              </div>
+            )
+        }else if(account_type=="guide"){
+          navigate('/dashboardg')
+        }else{
+          navigate('/login')
+        }
       }
 
     

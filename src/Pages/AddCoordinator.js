@@ -90,9 +90,6 @@ function AddCoordinator() {
 
   return (
     <div className='addcoordinator d-flex'>
-        <div>
-            <DashSideBar/>
-        </div>
         <div className='dashmain'>
             <div className='addcoo mt-5 mx-1 mx-lg-0 ml-lg-3 mb-4'>
                 <div className='d-flex justify-content-between px-3'>

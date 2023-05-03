@@ -1,5 +1,5 @@
 
-import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_STUDENT, GET_USER, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, START_PROJECT } from "./constants";
+import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_PROJECT, GET_STUDENT, GET_TASK, GET_USER, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, START_PROJECT } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -178,6 +178,37 @@ const start_project = (title, description, guide, student1, student2, student3, 
     )
 }
 
+const create_task = (project_title, task_title, description, due_date)=>{
+    return axios.post(`${PROJECT_BASE_URL}${CREATE_TASK}`,{
+        "project_title": project_title,
+        'task_title': task_title,
+        'description': description,
+        'due_date': due_date
+    },{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
 
+const get_project = ()=>{
+    return axios.get(`${PROJECT_BASE_URL}${GET_PROJECT}`,{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
 
-export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project}
+const get_task = (project_title)=>{
+    return axios.post(`${PROJECT_BASE_URL}${GET_TASK}`,{
+        'project_title': project_title
+    },{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project,
+        get_project, create_task, get_task
+        }

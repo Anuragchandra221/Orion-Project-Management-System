@@ -1,0 +1,18 @@
+.task_title{
+    font-size: larger;
+}
+.projectHeading{
+    font-size: x-large;
+}
+.taskDue{
+    background: #405189;
+    color: #fff;
+    padding-inline: 12px;
+    font-size: medium;
+    border: none;
+    border-radius: 10px;
+    height: 2.3em;
+}
+.task_description{
+    color: #5f5f60
+}

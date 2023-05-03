@@ -19,6 +19,8 @@ function Login() {
             if(jwt_decode(token).account_type=="admin" || jwt_decode(token).account_type=="coordinator"){
                     
                   navigate('/dashboard')
+            }else if(jwt_decode(token).account_type=="guide"){
+                navigate('/dashboardg')
             }
         }
       }, [])
@@ -30,8 +32,8 @@ function Login() {
                 setErr()
                 if(jwt_decode(results.data.access).account_type=="admin" || jwt_decode(results.data.access).account_type=="coordinator"){
                     navigate('/dashboard')
-                }else{
-                    setErr("You dont have the permission")
+                }else if(jwt_decode(results.data.access).account_type=="guide"){
+                    navigate('/dashboardg')
                 }
             }).catch((err)=>{
                 setErr("Invalid Username or Password")
