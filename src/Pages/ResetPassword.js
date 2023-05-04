@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { password_reset } from '../Utils/services'
-import { Link, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { get_token, password_reset } from '../Utils/services'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import jwt_decode from "jwt-decode";
 
 function ResetPassword() {
@@ -12,6 +12,13 @@ function ResetPassword() {
     const [msg, setMsg] = useState()
     const params = useParams()
     const email = jwt_decode(params.str).email
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(!get_token()){
+          navigate('/login')
+        }
+      }, [loading])
 
     const change_password = ()=>{
         setLoading(true)

@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import DashSideBar from '../Components/DashSideBar'
+import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
-import { create_guide } from '../Utils/services'
 import './CSS/Dashboard.css'
-import { get_token, update_token } from '../Utils/services'
+import { get_token } from '../Utils/services'
 import { useNavigate } from 'react-router-dom'
-import { set_user } from '../Utils/services'
-import jwt_decode from "jwt-decode";
 import { create_task } from '../Utils/services'
 import { get_project } from '../Utils/services'
+import { loginContext } from '../App'
 
 function AssignTask() {
     const time = 9*60*1000
@@ -24,42 +21,19 @@ function AssignTask() {
     const [project, setProject] = useState()
 
     const navigate = useNavigate()
+    const [user] = useContext(loginContext)
 
     useEffect(()=>{
-        if(account_type!=='' && account_type!=="guide"){
+        if(user && user!=="guide"){
             navigate("/dashboard")
-        }
-        if (loading){
-          if(get_token()){
-            update_token().then((results)=>{
-              set_user(results.data.access, results.data.refresh)
-              setLoading(false)
-              setAccountType(jwt_decode(get_token()).account_type)
-              
-            }).catch((err)=>{
-              // console.log(err)
-            })
-          }else{
-            navigate('/login')
-          }
         }
         if(!get_token()){
           navigate('/login')
         }else{
-          setAccountType(jwt_decode(get_token()).account_type)
-          setLoading(false)
           get_project().then((results)=>{
+            setLoading(false)
             setProject(results.data)
           })
-          let interval = setInterval(()=>{
-              update_token().then((results)=>{
-                set_user(results.data.access, results.data.refresh)
-                
-              }).catch((err)=>{
-                // console.log(err)
-              })
-          },time)
-          return ()=>clearInterval(interval)
         }
       }, [loading])
 

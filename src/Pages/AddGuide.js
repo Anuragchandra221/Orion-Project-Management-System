@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import DashSideBar from '../Components/DashSideBar'
+import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import { create_guide } from '../Utils/services'
 import './CSS/Dashboard.css'
 import { get_token, update_token } from '../Utils/services'
-import { useNavigate } from 'react-router-dom'
-import { set_user } from '../Utils/services'
-import jwt_decode from "jwt-decode";
+import { Link, useNavigate } from 'react-router-dom'
+import { loginContext } from '../App'
 
 function AddGuide() {
-    const time = 9*60*1000
 
     const [name, setName] = useState()
     const [email, setEmail] = useState()
@@ -21,45 +18,17 @@ function AddGuide() {
     const [confirmPassword, setConfirmPassword] = useState()
     const [register, setRegister] = useState()
     const [load, setLoad] = useState(false)
-    const [loading, setLoading] = useState(true)
-    const [account_type, setAccountType] = useState('')
 
     const navigate = useNavigate()
+    const [user] = useContext(loginContext)
 
     useEffect(()=>{
-        if(account_type!=='' && account_type!=="coordinator"){
+        if(user && user!=="coordinator"){
             navigate("/dashboard")
-        }
-        if (loading){
-          if(get_token()){
-            update_token().then((results)=>{
-              set_user(results.data.access, results.data.refresh)
-              setLoading(false)
-              setAccountType(jwt_decode(get_token()).account_type)
-              
-            }).catch((err)=>{
-              // console.log(err)
-            })
-          }else{
+        }else if(!get_token()){
             navigate('/login')
           }
-        }
-        if(!get_token()){
-          navigate('/login')
-        }else{
-          setAccountType(jwt_decode(get_token()).account_type)
-          setLoading(false)
-          let interval = setInterval(()=>{
-              update_token().then((results)=>{
-                set_user(results.data.access, results.data.refresh)
-                
-              }).catch((err)=>{
-                // console.log(err)
-              })
-          },time)
-          return ()=>clearInterval(interval)
-        }
-      }, [loading])
+      }, [])
 
     const create = ()=>{
         setLoad(true)
@@ -95,7 +64,7 @@ function AddGuide() {
             <div className='addcoo mt-5 mx-1 mx-lg-0 ml-lg-3 mb-4'>
                 <div className='d-flex justify-content-between px-3'>
                         <h3>Add Guide</h3>
-                        <button className='theButton' style={{width:'9em'}}>Guide list</button>
+                        <Link to="/view-guide" ><button className='theButton' style={{width:'9em'}}>Guide list</button></Link>
                     
                 </div>
                 <div className='w-100 addcoodiv px-3 py-3 mt-3 mx-auto'>

@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import DashSideBar from '../Components/DashSideBar'
+import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
-import { create_coordinator, get_guide, get_student, start_project } from '../Utils/services'
+import { get_guide, get_student, start_project } from '../Utils/services'
 import './CSS/Dashboard.css'
 import './CSS/StartProject.css'
-import { get_token, update_token } from '../Utils/services'
+import { get_token } from '../Utils/services'
 import { useNavigate } from 'react-router-dom'
-import { set_user } from '../Utils/services'
-import jwt_decode from "jwt-decode";
+import { loginContext } from '../App'
 
 function StartProject() {
-    const time = 9*60*1000
 
     const [name, setName] = useState()
     const [description, setDescription] = useState()
@@ -24,51 +21,27 @@ function StartProject() {
     const [student, setStudent] = useState('')
     const [load, setLoad] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [account_type, setAccountType] = useState('')
 
     const navigate = useNavigate()
+    const [user] = useContext(loginContext)
 
     useEffect(()=>{
-        if(account_type!=='' && account_type!=="coordinator"){
+        if(user&& user!=="coordinator"){
             navigate("/dashboard")
-        }
-        if (loading){
-          if(get_token()){
-            update_token().then((results)=>{
-              set_user(results.data.access, results.data.refresh)
-              setLoading(false)
-              setAccountType(jwt_decode(get_token()).account_type)
-              
-            }).catch((err)=>{
-              // console.log(err)
-            })
-          }else{
-            navigate('/login')
-          }
         }
         if(!get_token()){
           navigate('/login')
         }else{
-          setAccountType(jwt_decode(get_token()).account_type)
           get_guide().then((results)=>{
             setData(results.data)
             // console.log(results.data)
           })
           get_student().then((results)=>{
             setStudent(results.data)
+            setLoading(false)
           })
-          setLoading(false)
-          let interval = setInterval(()=>{
-              update_token().then((results)=>{
-                set_user(results.data.access, results.data.refresh)
-                
-              }).catch((err)=>{
-                // console.log(err)
-              })
-          },time)
-          return ()=>clearInterval(interval)
         }
-      }, [loading])
+      }, [])
 
     const create = ()=>{
         setLoad(true)

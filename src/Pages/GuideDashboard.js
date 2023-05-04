@@ -1,71 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import { get_guide, get_project, get_task, get_token, update_token } from '../Utils/services'
+import {  get_project, get_task, get_token, update_token } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
-import { set_user } from '../Utils/services'
-import jwt_decode from "jwt-decode";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen } from '@fortawesome/free-solid-svg-icons'
-import DashSideBar from '../Components/DashSideBar'
 import './CSS/GuideDashboard.css'
+import { loginContext } from '../App'
 
 function GuideDashboard() {
-  const time = 9*60*1000
 
     const [loading, setLoading] = useState(true)
-    const [account_type, setAccountType] = useState('')
     const [project, setProject] = useState()
     const [tasks, setTasks] = useState()
-    const [gData, setGData] = useState()
     let datetime;
+
+    const [user] = useContext(loginContext)
 
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if((account_type!=='' && account_type!=="guide" )  ){
+        if((user && user!=="guide" )  ){
             navigate("/login")
-        }
-        if (loading){
-          if(get_token()){
-            update_token().then((results)=>{
-              set_user(results.data.access, results.data.refresh)
-              setLoading(false)
-              setAccountType(jwt_decode(get_token()).account_type)
-              
-            }).catch((err)=>{
-              // console.log(err)
-            })
-          }else{
-            navigate('/login')
-          }
         }
         if(!get_token()){
           navigate('/login')
         }else{
-          setAccountType(jwt_decode(get_token()).account_type)
           get_project().then((results)=>{
             setProject(results.data)
             get_task(results.data.title).then((results)=>{
               // results.data.due_date = results.data.due_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });  
               setTasks(results.data)
+              setLoading(false)
             })
           })
-          get_guide().then((results)=>{
-              setGData(results.data)
-              setLoading(false)
-          })
-          let interval = setInterval(()=>{
-              update_token().then((results)=>{
-                set_user(results.data.access, results.data.refresh)
-                
-              }).catch((err)=>{
-                // console.log(err)
-              })
-          },time)
-          return ()=>clearInterval(interval)
         }
-      }, [loading])
+      }, [])
 
       if(loading){
 

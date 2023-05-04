@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './CSS/Login.css'
-import axios from 'axios'
 import { get_token, login, set_user } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import jwt_decode from "jwt-decode";
+import { loginContext } from '../App'
 
 function Login() {
+
+    const [user, setUser] = useContext(loginContext)
+    console.log(user)
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -29,6 +32,7 @@ function Login() {
         if(email && password){
             login(email, password).then((results)=>{
                 set_user(results.data.access, results.data.refresh)
+                setUser(jwt_decode(results.data.access).account_type)
                 setErr()
                 if(jwt_decode(results.data.access).account_type=="admin" || jwt_decode(results.data.access).account_type=="coordinator"){
                     navigate('/dashboard')

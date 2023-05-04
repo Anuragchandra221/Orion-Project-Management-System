@@ -1,61 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import { get_coordinator, get_student, get_token, update_token } from '../Utils/services'
+import { get_student, get_token } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
-import { set_user } from '../Utils/services'
-import jwt_decode from "jwt-decode";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen } from '@fortawesome/free-solid-svg-icons'
-import DashSideBar from '../Components/DashSideBar'
+import { loginContext } from '../App'
 
 function ViewStudent() {
-    const time = 9*60*1000
 
-    const [load, setLoad] = useState(false)
     const [loading, setLoading] = useState(true)
     const [account_type, setAccountType] = useState('')
     const [sData, setSData] = useState()
 
     const navigate = useNavigate()
+    const [user] = useContext(loginContext)
 
     useEffect(()=>{
-        if((account_type!=='' && account_type!=="admin" && account_type !== "coordinator" && account_type !== "guide" )  ){
+        if((user && user!=="admin" && user !== "coordinator" && account_type !== "guide" )  ){
             navigate("/login")
-        }
-        if (loading){
-          if(get_token()){
-            update_token().then((results)=>{
-              set_user(results.data.access, results.data.refresh)
-              setLoading(false)
-              setAccountType(jwt_decode(get_token()).account_type)
-              
-            }).catch((err)=>{
-              // console.log(err)
-            })
-          }else{
-            navigate('/login')
-          }
         }
         if(!get_token()){
           navigate('/login')
         }else{
-          setAccountType(jwt_decode(get_token()).account_type)
           get_student().then((results)=>{
               setSData(results.data)
               setLoading(false)
           })
-          let interval = setInterval(()=>{
-              update_token().then((results)=>{
-                set_user(results.data.access, results.data.refresh)
-                
-              }).catch((err)=>{
-                // console.log(err)
-              })
-          },time)
-          return ()=>clearInterval(interval)
         }
-      }, [loading])
+      }, [])
 
       if(loading){
 

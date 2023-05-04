@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { password_reset_confirm } from '../Utils/services'
+import React, { useEffect, useState } from 'react'
+import { get_token, password_reset_confirm } from '../Utils/services'
+import { useNavigate } from 'react-router-dom'
 
 function ResetPasswordConfirm() {
 
@@ -8,6 +9,13 @@ function ResetPasswordConfirm() {
     const [msg, setMsg] = useState()
     const [err, setErr] = useState()
 
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(!get_token()){
+          navigate('/login')
+        }
+      }, [loading])
     const change_password = ()=>{
         setLoading(true)
         password_reset_confirm(mail).then((result)=>{

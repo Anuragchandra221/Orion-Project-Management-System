@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Landing from './Pages/Landing';
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
@@ -18,36 +18,75 @@ import StartProject from './Pages/StartProject';
 import GuideDashboard from './Pages/GuideDashboard';
 import AssignTask from './Pages/AssignTask';
 import DashSideBar from './Components/DashSideBar';
+import { createContext, useEffect, useState } from 'react';
+import { get_token, set_user, update_token } from './Utils/services';
+import jwt_decode from "jwt-decode";
+
+export const loginContext = createContext()
 
 function App() {
-  return (
-    <BrowserRouter>
-    <Routes>
-        <Route path="/" element={<Landing/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/forgot_password" element={<ResetPasswordConfirm/>} />
-        <Route path="/forgot_password/:str" element={<ResetPassword/>} />
-    </Routes>
-    <div>
-          <DashSideBar />
-      </div>
-      <Routes>
 
-        <Route path="/dashboard" element={<Dashboard/>} />
-        <Route path="/dashboardg" element={<GuideDashboard/>} />
-        <Route path="/add-coordinator" element={<AddCoordinator/>} />
-        <Route path="/view-coordinator" element={<ViewCoordinator/>} />
-        <Route path="/add-student" element={<AddStudent/>} />
-        <Route path="/assign-task" element={<AssignTask/>} />
-        <Route path="/view-student" element={<ViewStudent/>} />
-        <Route path="/add-guide" element={<AddGuide/>} />
-        <Route path="/view-guide" element={<ViewGuide/>} />
-        <Route path="/edit-coordinator/:str" element={<EditAccount/>} />
-        <Route path="/edit-account/:str" element={<EditGuide/>} />
-        
-        <Route path="/startProject" element={<StartProject/>} />
+  const [userAccount, setUserAccount] = useState()
+  const [loading, setLoading] = useState(true)
+  const time = 4*60*1000
+
+  useEffect(()=>{
+    
+    if (loading){
+      if(get_token()){
+        update_token().then((results)=>{
+          set_user(results.data.access, results.data.refresh)
+          setUserAccount(jwt_decode(get_token()).account_type)
+          setLoading(false)
+          
+        }).catch((err)=>{
+          // console.log(err)
+        })
+      }else{
+      }
+    }
+    let interval = setInterval(()=>{
+          update_token().then((results)=>{
+            set_user(results.data.access, results.data.refresh)
+            setUserAccount(jwt_decode(get_token()).account_type)
+            
+          }).catch((err)=>{
+            // console.log(err)
+          })
+      },time)
+      return ()=>clearInterval(interval)
+    }, [loading])
+
+  return (
+    <loginContext.Provider value={[userAccount, setUserAccount]}>
+      <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<Landing/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/forgot_password" element={<ResetPasswordConfirm/>} />
+          <Route path="/forgot_password/:str" element={<ResetPassword/>} />
       </Routes>
-    </BrowserRouter>
+      <div>
+            <DashSideBar />
+        </div>
+        <Routes>
+
+          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/dashboardg" element={<GuideDashboard/>} />
+          <Route path="/add-coordinator" element={<AddCoordinator/>} />
+          <Route path="/view-coordinator" element={<ViewCoordinator/>} />
+          <Route path="/add-student" element={<AddStudent/>} />
+          <Route path="/assign-task" element={<AssignTask/>} />
+          <Route path="/view-student" element={<ViewStudent/>} />
+          <Route path="/add-guide" element={<AddGuide/>} />
+          <Route path="/view-guide" element={<ViewGuide/>} />
+          <Route path="/edit-coordinator/:str" element={<EditAccount/>} />
+          <Route path="/edit-account/:str" element={<EditGuide/>} />
+          
+          <Route path="/startProject" element={<StartProject/>} />
+        </Routes>
+      </BrowserRouter>
+    </loginContext.Provider>
   );
 }
 

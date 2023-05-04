@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import DashSideBar from '../Components/DashSideBar'
+import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import {  edit_guide } from '../Utils/services'
 import './CSS/Dashboard.css'
-import { get_token, update_token, get_user } from '../Utils/services'
+import { get_token, get_user } from '../Utils/services'
 import { useNavigate, useParams } from 'react-router-dom'
-import { set_user } from '../Utils/services'
 import jwt_decode from "jwt-decode";
+import { loginContext } from '../App'
 
 function EditGuide() {
-    const time = 9*60*1000
     const params = useParams()
     const [name, setName] = useState()
     const [load, setLoad] = useState(false)
@@ -19,24 +17,12 @@ function EditGuide() {
 
     const navigate = useNavigate()
 
+    const [userr] = useContext(loginContext)
+
     useEffect(()=>{
         const paramEmail = params.str
-        if(account_type!=='' && account_type!=="coordinator"){
+        if(userr && userr!=="coordinator"){
             navigate("/dashboard")
-        }
-        if (loading){
-          if(get_token()){
-            update_token().then((results)=>{
-              set_user(results.data.access, results.data.refresh)
-              setLoading(false)
-              setAccountType(jwt_decode(get_token()).account_type)
-              
-            }).catch((err)=>{
-              // console.log(err)
-            })
-          }else{
-            navigate('/login')
-          }
         }
         if(!get_token()){
           navigate('/login')
@@ -48,15 +34,6 @@ function EditGuide() {
           }).catch((err)=>{
             console.log(err)
           })
-          let interval = setInterval(()=>{
-              update_token().then((results)=>{
-                set_user(results.data.access, results.data.refresh)
-                
-              }).catch((err)=>{
-                // console.log(err)
-              })
-          },time)
-          return ()=>clearInterval(interval)
         }
       }, [loading])
 

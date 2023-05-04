@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import DashSideBar from '../Components/DashSideBar'
+import React, { useContext, useEffect, useState } from 'react'
 import './CSS/Dashboard.css'
 import DashboardCard from '../Components/DashboardCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,74 +6,55 @@ import { faGauge, faPersonChalkboard, faUser } from '@fortawesome/free-solid-svg
 import New from '../Components/New'
 import { get_coordinator, get_count, get_guide, get_student, get_token, update_token } from '../Utils/services'
 import { Link, useNavigate } from 'react-router-dom'
-import { set_user } from '../Utils/services'
 import { CirclesWithBar } from 'react-loader-spinner'
-import jwt_decode from "jwt-decode";
+import { loginContext } from '../App'
 
 function Dashboard() {
   const navigate = useNavigate()
-  const time = 9*60*1000
   const [no, setNo] = useState([])
   const [cData, setCData] = useState()
   const [gData, setGData] = useState()
   const [sData, setSData] = useState()
   const [loading, setLoading] = useState(true)
-  const [account_type, setAccountType] = useState('')
+
+  const [user] = useContext(loginContext)
+  
 
   useEffect(()=>{
     if (loading){
-      if(get_token()){
-        update_token().then((results)=>{
-          set_user(results.data.access, results.data.refresh)
+      if(user && user=="guide"){
+        navigate('/dashboardg')
+      }else if(user){
+        get_count().then((results)=>{
+          setNo(results.data.admin)
           setLoading(false)
-          setAccountType(jwt_decode(get_token()).account_type)
-          
         }).catch((err)=>{
-          // console.log(err)
+          if(err.request.status == 401){
+            localStorage.removeItem("token")
+            localStorage.removeItem("refresh")
+          }
         })
-      }else{
+  
+        get_coordinator().then((results)=>{
+          setCData(results.data)
+        })
+  
+        get_guide().then((results)=>{
+          setGData(results.data)
+        })
+        
+        get_student().then((results)=>{
+          setSData(results.data)
+          setLoading(false)
+        })
+      }else if(!get_token()){
         navigate('/login')
       }
     }
-    if(!get_token()){
-      navigate('/login')
-    }else{
-      setAccountType(jwt_decode(get_token()).account_type)
-      get_count().then((results)=>{
-        setNo(results.data.admin)
-        setLoading(false)
-      }).catch((err)=>{
-        if(err.request.status == 401){
-          localStorage.removeItem("token")
-          localStorage.removeItem("refresh")
-        }
-      })
+    
+  }, [])
 
-      get_coordinator().then((results)=>{
-        setCData(results.data)
-      })
-
-      get_guide().then((results)=>{
-        setGData(results.data)
-      })
-      
-      get_student().then((results)=>{
-        setSData(results.data)
-      })
-
-      let interval = setInterval(()=>{
-          update_token().then((results)=>{
-            set_user(results.data.access, results.data.refresh)
-            
-          }).catch((err)=>{
-            // console.log(err)
-          })
-      },time)
-      return ()=>clearInterval(interval)
-    }
-  }, [loading])
-
-  if(account_type && (account_type!="guide" && account_type!="student")){
+  if(user!='' && (user!="guide" && user!="student")){
     return (
       <div className='dashboard d-flex' >
         <div className='dashmain '>
@@ -98,7 +78,7 @@ function Dashboard() {
                 />
             </div>}
           </div>
-          {account_type=="coordinator"?
+          {user=="coordinator"?
           <Link to="/startProject">
           <div className='text-right p-2 m-2'>
             <button className='theButton' style={{width:'9em', cursor: 'pointer'}}>Start Project</button>
@@ -109,14 +89,14 @@ function Dashboard() {
           
           
           <div className='d-flex mt-3 newContainer'>
-            <New name="Students" data={sData?sData:[]} account_type={account_type} />
-            <New name="Guides" data={gData?gData:[]} account_type={account_type} />
-            {account_type=="admin"?<New name="Coordinators" account_type={account_type} data={cData?cData:[]} />:<></>}
+            <New name="Students" data={sData?sData:[]} account_type={user?user:''} />
+            <New name="Guides" data={gData?gData:[]} account_type={user?user:''} />
+            {user=="admin"?<New name="Coordinators" account_type={user} data={cData?cData:[]} />:<></>}
           </div>
         </div>
       </div>
     )
-  }else if(account_type==''){
+  }else if(user==''){
     navigate("/login")
   }else{
     navigate("/dashboardg")
