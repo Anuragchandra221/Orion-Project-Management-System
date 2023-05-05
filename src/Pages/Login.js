@@ -8,7 +8,6 @@ import { loginContext } from '../App'
 function Login() {
 
     const [user, setUser] = useContext(loginContext)
-    console.log(user)
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -18,13 +17,17 @@ function Login() {
 
     useEffect(()=>{
         const token = get_token()
-        if(token){
-            if(jwt_decode(token).account_type=="admin" || jwt_decode(token).account_type=="coordinator"){
-                    
-                  navigate('/dashboard')
-            }else if(jwt_decode(token).account_type=="guide"){
-                navigate('/dashboardg')
+        if(user){
+            if((user=="admin" || user=="coordinator" )  ){
+                navigate("/dashboard")
+            }else if(user=="guide"){
+                navigate("/dashboardg")
+            }else{
+                navigate("/dashboards")
             }
+        }
+        if(!get_token()){
+          navigate('/login')
         }
       }, [])
 
@@ -38,6 +41,8 @@ function Login() {
                     navigate('/dashboard')
                 }else if(jwt_decode(results.data.access).account_type=="guide"){
                     navigate('/dashboardg')
+                }else if(jwt_decode(results.data.access).account_type=="student"){
+                    navigate('/dashboards')
                 }
             }).catch((err)=>{
                 setErr("Invalid Username or Password")

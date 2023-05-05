@@ -47,6 +47,7 @@ function StartProject() {
         setLoad(true)
         if(name&&description&&guide&&  std1&& std2&& std3&& std4){
             start_project(name, description, guide, std1, std2, std3, std4).then((results)=>{
+                console.log(results.data)
                 if(results.data.err){
                     setErr(results.data.err)
                     setLoad(false)

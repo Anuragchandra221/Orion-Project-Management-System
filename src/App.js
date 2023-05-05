@@ -21,6 +21,7 @@ import DashSideBar from './Components/DashSideBar';
 import { createContext, useEffect, useState } from 'react';
 import { get_token, set_user, update_token } from './Utils/services';
 import jwt_decode from "jwt-decode";
+import StudentDashboard from './Pages/StudentDashboard';
 
 export const loginContext = createContext()
 
@@ -28,7 +29,7 @@ function App() {
 
   const [userAccount, setUserAccount] = useState()
   const [loading, setLoading] = useState(true)
-  const time = 4*60*1000
+  const time = 3*60*1000
 
   useEffect(()=>{
     
@@ -40,7 +41,8 @@ function App() {
           setLoading(false)
           
         }).catch((err)=>{
-          // console.log(err)
+          localStorage.removeItem('token')
+          localStorage.removeItem('refresh')
         })
       }else{
       }
@@ -51,7 +53,8 @@ function App() {
             setUserAccount(jwt_decode(get_token()).account_type)
             
           }).catch((err)=>{
-            // console.log(err)
+            // localStorage.removeItem('token')
+            // localStorage.removeItem('refresh')
           })
       },time)
       return ()=>clearInterval(interval)
@@ -73,6 +76,7 @@ function App() {
 
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/dashboardg" element={<GuideDashboard/>} />
+          <Route path="/dashboards" element={<StudentDashboard/>} />
           <Route path="/add-coordinator" element={<AddCoordinator/>} />
           <Route path="/view-coordinator" element={<ViewCoordinator/>} />
           <Route path="/add-student" element={<AddStudent/>} />

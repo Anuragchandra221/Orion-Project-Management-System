@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  get_project, get_task, get_token, update_token } from '../Utils/services'
+import {  get_project, get_task, get_token } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import './CSS/GuideDashboard.css'
 import { loginContext } from '../App'
