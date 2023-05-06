@@ -49,6 +49,8 @@ function AssignTask() {
                 setLoad(false)
                 setErr(results.data.err)
             }
+        }).catch((err)=>{
+            setLoad(false)
         })
     }
 

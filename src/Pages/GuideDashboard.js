@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  get_project, get_task, get_token } from '../Utils/services'
+import {  file, get_project, get_task, get_token } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import './CSS/GuideDashboard.css'
 import { loginContext } from '../App'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faHourglassEnd } from '@fortawesome/free-solid-svg-icons'
 
 function GuideDashboard() {
 
@@ -29,6 +31,7 @@ function GuideDashboard() {
             get_task(results.data.title).then((results)=>{
               // results.data.due_date = results.data.due_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });  
               setTasks(results.data)
+              // console.log(results.data)
               setLoading(false)
             })
           })
@@ -61,12 +64,22 @@ function GuideDashboard() {
                             return (
                               <div className='mt-4' key={index}>
                                 <div className='d-flex justify-content-between'>
-                                  <p className='task_title'>{value.title}</p>
-                                  <button className='taskDue'>Due {
+                                  <p className='task_title'>{value.completed?<span className='mr-2' style={{color: 'green'}} ><FontAwesomeIcon icon={faCircleCheck} /></span>:<span className='mr-2' style={{color: 'orange'}}><FontAwesomeIcon icon={faHourglassEnd} /></span>}{value.title}</p>
+                                </div>
+                                  <p className=''>Due {
                                     formattedDatetime
                                    
-                                  }</button>
-                                </div>
+                                  }</p>
+                                  <div className='mb-3'>
+                                    {(value.works.length>0)?value.works.map((val, index)=>{
+                                        return (
+                                            <a href={file(val.slice(6,))} target='_blank' className='file mb-2' key={index}>
+                                                {val.slice(6,)}
+                                            </a>
+                                        )
+                                    }):<></>}
+
+                                  </div>
                                 <div>
                                   <p className='task_description'>{value.description}</p>
                                 </div>

@@ -229,6 +229,10 @@ const upload_work = (file)=>{
     })
 }
 
+const file = (file)=>{
+    return `http://127.0.0.1:8000/media/${file}`
+}
+
 export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project,
-        get_project, create_task, get_task, get_work, upload_work
+        get_project, create_task, get_task, get_work, upload_work, file
         }
