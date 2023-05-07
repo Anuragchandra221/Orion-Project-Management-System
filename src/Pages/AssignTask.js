@@ -35,7 +35,7 @@ function AssignTask() {
             setProject(results.data)
           })
         }
-      }, [loading])
+      }, [user])
 
     const create = ()=>{
         setLoad(true)

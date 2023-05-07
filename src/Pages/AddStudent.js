@@ -30,11 +30,11 @@ function AddStudent() {
         }else if(!get_token()){
             navigate('/login')
           }
-      }, [])
+      }, [user])
 
     const create = ()=>{
         setLoad(true)
-        console.log(load)
+        console.log(gender)
         if(name && email && dob && password && confirmPassword && gender && number && register){
             if(password==confirmPassword){
                 create_student(name, email, dob, gender, number, register, password).then((results)=>{

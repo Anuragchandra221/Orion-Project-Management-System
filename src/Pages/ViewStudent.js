@@ -28,7 +28,7 @@ function ViewStudent() {
               setLoading(false)
           })
         }
-      }, [])
+      }, [user])
 
       if(loading){
 

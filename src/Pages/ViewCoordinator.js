@@ -20,15 +20,20 @@ function ViewCoordinator() {
 
     useEffect(()=>{
       
-        if(!get_token()){
-          navigate('/login')
-        }else{
+      if (loading){
+        if(user && user=="guide"){
+          navigate('/dashboardg')
+        }else if(user){
           get_coordinator().then((results)=>{
-              setCData(results.data)
-              setLoading(false)
-          })
+            setCData(results.data) 
+            setLoading(false)
+        })
+        }else if(!get_token()){
+          navigate('/login')
         }
-      }, [loading])
+      }
+        
+      }, [user])
 
       if(loading){
 
@@ -72,8 +77,6 @@ function ViewCoordinator() {
             )
         }else if(account_type=="guide"){
           navigate('/dashboardg')
-        }else{
-          navigate('/login')
         }
       }
 

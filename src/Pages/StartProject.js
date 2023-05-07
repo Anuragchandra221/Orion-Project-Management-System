@@ -41,7 +41,7 @@ function StartProject() {
             setLoading(false)
           })
         }
-      }, [])
+      }, [user])
 
     const create = ()=>{
         setLoad(true)

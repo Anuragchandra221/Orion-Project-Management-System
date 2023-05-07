@@ -29,25 +29,29 @@ function App() {
 
   const [userAccount, setUserAccount] = useState()
   const [loading, setLoading] = useState(true)
-  const time = 3*60*1000
+  const time = 1*60*1000
 
   useEffect(()=>{
     
     if (loading){
       if(get_token()){
         update_token().then((results)=>{
+          setUserAccount()
           set_user(results.data.access, results.data.refresh)
           setUserAccount(jwt_decode(get_token()).account_type)
+          console.log(userAccount)
           setLoading(false)
           
         }).catch((err)=>{
-          localStorage.removeItem('token')
-          localStorage.removeItem('refresh')
+          // localStorage.removeItem('token')
+          // localStorage.removeItem('refresh')
         })
       }else{
       }
-    }
-    let interval = setInterval(()=>{
+    }else{
+
+      let interval = setInterval(()=>{
+        if(get_token()){
           update_token().then((results)=>{
             set_user(results.data.access, results.data.refresh)
             setUserAccount(jwt_decode(get_token()).account_type)
@@ -56,8 +60,10 @@ function App() {
             // localStorage.removeItem('token')
             // localStorage.removeItem('refresh')
           })
-      },time)
-      return ()=>clearInterval(interval)
+        }
+        },time)
+        return ()=>clearInterval(interval)
+    }
     }, [loading])
 
   return (

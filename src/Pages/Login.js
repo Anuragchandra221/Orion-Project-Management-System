@@ -16,7 +16,6 @@ function Login() {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        const token = get_token()
         if(user){
             if((user=="admin" || user=="coordinator" )  ){
                 navigate("/dashboard")
@@ -29,7 +28,7 @@ function Login() {
         if(!get_token()){
           navigate('/login')
         }
-      }, [])
+      }, [user])
 
     const signin = ()=>{
         if(email && password){

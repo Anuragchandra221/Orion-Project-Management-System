@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  file, get_project, get_task, get_token } from '../Utils/services'
+import {  file, get_pdf, get_project, get_task, get_token, give_marks } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import './CSS/GuideDashboard.css'
 import { loginContext } from '../App'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faHourglassEnd } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faCross, faFile, faHourglassEnd, faMultiply } from '@fortawesome/free-solid-svg-icons'
 
 function GuideDashboard() {
 
@@ -14,6 +14,9 @@ function GuideDashboard() {
     const [project, setProject] = useState()
     const [tasks, setTasks] = useState()
     let datetime;
+    const [file, setFile] = useState()
+    const [marks, setMarks] = useState()
+    const [title, setTitle] = useState()
 
     const [user] = useContext(loginContext)
 
@@ -23,7 +26,7 @@ function GuideDashboard() {
         if((user && user!=="guide" )  ){
             navigate("/login")
         }
-        if(!get_token()){
+        if(!get_token()){ 
           navigate('/login')
         }else{
           get_project().then((results)=>{
@@ -36,7 +39,19 @@ function GuideDashboard() {
             })
           })
         }
-      }, [])
+      }, [user])
+
+      const mark = (task)=>{
+        if(title && task){
+          if(title==task){
+            if(marks && marks<=100){
+              give_marks(marks, task, project.title).then((results)=>{
+                
+              })
+            }
+          }
+        }
+      }
 
       if(loading){
 
@@ -65,17 +80,35 @@ function GuideDashboard() {
                               <div className='mt-4' key={index}>
                                 <div className='d-flex justify-content-between'>
                                   <p className='task_title'>{value.completed?<span className='mr-2' style={{color: 'green'}} ><FontAwesomeIcon icon={faCircleCheck} /></span>:<span className='mr-2' style={{color: 'orange'}}><FontAwesomeIcon icon={faHourglassEnd} /></span>}{value.title}</p>
+                                  <div>
+                                    <span className='mr-2'><input type="number" defaultValue={value.score_obtained} onChange={(e)=>{
+                                      setMarks(e.target.value)
+                                      setTitle(value.title)
+                                    }} className='scoreInput mr-1' />/{value.max_score}</span>
+                                    <span><button className='markButton' onClick={(e)=>{
+                                      mark(value.title)
+                                    }} >Mark</button></span>
+                                  </div>
                                 </div>
                                   <p className=''>Due {
                                     formattedDatetime
                                    
                                   }</p>
                                   <div className='mb-3'>
+
                                     {(value.works.length>0)?value.works.map((val, index)=>{
+                                      // console.log(val)
                                         return (
-                                            <a href={file(val.slice(6,))} target='_blank' className='file mb-2' key={index}>
-                                                {val.slice(6,)}
-                                            </a>
+                                            <button className='file mb-2 mr-2' key={index} onClick={()=>{
+                                              get_pdf(project.title, value.title, val).then((results)=>{
+                                                const fileData = new Blob([results.data]);
+                                                window.scrollTo(0,0)
+                                                setFile(fileData) 
+                                                document.body.style.overflow = "hidden"
+                                              })
+                                            }}>
+                                                <FontAwesomeIcon icon={faFile} /> {val.slice(6,)}
+                                            </button>
                                         )
                                     }):<></>}
 
@@ -86,6 +119,19 @@ function GuideDashboard() {
                               </div>
                             )
                           }):''}
+                          {file?<div  className='files'>
+                            <div className='text-right'>
+                            <button onClick={()=>{
+                              setFile()
+                              document.body.style.overflow = "visible"
+                            }} className='closeButton' ><FontAwesomeIcon icon={faMultiply} /></button>
+                            </div>
+                            
+                            <div>
+
+                                  <iframe src={URL.createObjectURL(file)} width="100%" height="100%" />
+                                </div>
+                          </div>:<></>}
                         </div>
                     </div>
                 </div>

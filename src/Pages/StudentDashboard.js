@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  get_project, get_task, get_token, upload_work } from '../Utils/services'
+import {  get_pdf, get_project, get_task, get_token, upload_work } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck, faHourglassEnd, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faFile, faHourglassEnd, faMultiply, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import './CSS/GuideDashboard.css'
 import { loginContext } from '../App'
 function StudentDashboard() { 
@@ -40,7 +40,7 @@ function StudentDashboard() {
             })
           })
         }
-      }, [d])
+      }, [d,user]) 
 
       const submitWork = (title) =>{
         // console.log(file, task, project.title)
@@ -95,12 +95,20 @@ function StudentDashboard() {
                                   }</p>
                                   
                                 </div>
+                                  <p>{value.score_obtained}/{value.max_score}</p>
                                   <div className='mb-3'>
                                     {(value.works.length>0)?value.works.map((val, index)=>{
                                         return (
-                                            <div className='file mb-2' key={index}>
-                                                {val.slice(6,)}
-                                            </div>
+                                          <button className='file mb-2 mr-2' key={index} onClick={()=>{
+                                            get_pdf(project.title, value.title, val).then((results)=>{
+                                              const fileData = new Blob([results.data]);
+                                              window.scrollTo(0,0)
+                                              setFile(fileData) 
+                                              document.body.style.overflow = "hidden"
+                                            })
+                                          }}>
+                                              <FontAwesomeIcon icon={faFile} /> {val.slice(6,)}
+                                          </button>
                                         )
                                     }):<></>}
 
@@ -129,6 +137,19 @@ function StudentDashboard() {
                               </div>
                             )
                           }):''}
+                          {file?<div  className='files'>
+                            <div className='text-right'>
+                            <button onClick={()=>{
+                              setFile()
+                              document.body.style.overflow = "visible"
+                            }} className='closeButton' ><FontAwesomeIcon icon={faMultiply} /></button>
+                            </div>
+                            
+                            <div>
+
+                                  <iframe src={URL.createObjectURL(file)} width="100%" height="100%" />
+                                </div>
+                          </div>:<></>}
                         </div>
                     </div>
                 </div>

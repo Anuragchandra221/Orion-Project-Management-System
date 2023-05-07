@@ -1,5 +1,5 @@
 
-import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_PROJECT, GET_STUDENT, GET_TASK, GET_USER, GET_WORK, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, START_PROJECT, UPLOAD_WORK } from "./constants";
+import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_PDF, GET_PROJECT, GET_STUDENT, GET_TASK, GET_USER, GET_WORK, GIVE_MARKS, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, START_PROJECT, UPLOAD_WORK } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -229,10 +229,31 @@ const upload_work = (file)=>{
     })
 }
 
-const file = (file)=>{
-    return `http://127.0.0.1:8000/media/${file}`
+const get_pdf = (project, task, file)=>{
+    return axios.post(`${PROJECT_BASE_URL}${GET_PDF}`,{
+        "project":project,
+        "task":task,
+        "file":file
+    },{
+        responseType: 'arraybuffer',
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+const give_marks = (marks, task, project)=>{
+    return axios.post(`${PROJECT_BASE_URL}${GIVE_MARKS}`,{
+        "project": project,
+        "task": task,
+        "score": marks
+    },{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
 }
 
 export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project,
-        get_project, create_task, get_task, get_work, upload_work, file
+        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks
         }

@@ -35,7 +35,7 @@ function EditGuide() {
             console.log(err)
           })
         }
-      }, [loading])
+      }, [userr])
 
     const editCoordinator = ()=>{
         setLoad(true)

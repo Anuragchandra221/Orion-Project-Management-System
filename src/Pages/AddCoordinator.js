@@ -31,7 +31,7 @@ function AddCoordinator() {
             navigate('/login')
           }
         
-      }, [])
+      }, [user])
 
     const create = ()=>{
         setLoad(true)

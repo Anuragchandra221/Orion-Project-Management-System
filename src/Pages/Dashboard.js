@@ -52,7 +52,7 @@ function Dashboard() {
       }
     }
     
-  }, [])
+  }, [user])
 
   if(user!='' && (user!="guide" && user!="student")){
     return (

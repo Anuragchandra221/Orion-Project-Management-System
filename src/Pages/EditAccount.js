@@ -34,7 +34,7 @@ function EditAccount() {
           }).catch((err)=>{
           })
         }
-      }, [])
+      }, [userr])
 
     const editCoordinator = ()=>{
         setLoad(true)

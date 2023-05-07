@@ -28,7 +28,7 @@ function ViewGuide() {
               setLoading(false)
           })
         }
-      }, [])
+      }, [user])
 
       if(loading){
 

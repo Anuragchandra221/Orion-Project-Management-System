@@ -28,7 +28,7 @@ function AddGuide() {
         }else if(!get_token()){
             navigate('/login')
           }
-      }, [])
+      }, [user])
 
     const create = ()=>{
         setLoad(true)
