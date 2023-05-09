@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './DashSideBar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
+import { loginContext } from '../App'
 
 function DashSideBar() {
 
     const navigate = useNavigate()
+    const [user, setUser] = useContext(loginContext)
 
   return (
     <div className='sidebar pl-3 pt-4 px-3 pb-3 pb-lg-0 '>
@@ -14,6 +16,8 @@ function DashSideBar() {
         <button className='logoutBtn ' style={{cursor: 'pointer'}} onClick={()=>{
             localStorage.removeItem("token")
             localStorage.removeItem("refresh")
+            setUser()
+
             navigate("/login")
         }} ><FontAwesomeIcon icon={faRightFromBracket}/> </button>
         </div>

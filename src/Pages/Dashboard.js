@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import './CSS/Dashboard.css'
 import DashboardCard from '../Components/DashboardCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGauge, faPersonChalkboard, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faGauge, faPersonChalkboard, faProjectDiagram, faUser } from '@fortawesome/free-solid-svg-icons'
 import New from '../Components/New'
-import { get_coordinator, get_count, get_guide, get_student, get_token, update_token } from '../Utils/services'
+import { get_coordinator, get_count, get_guide, get_project, get_student, get_task, get_token, update_token, view_project_names, view_projects } from '../Utils/services'
 import { Link, useNavigate } from 'react-router-dom'
 import { CirclesWithBar } from 'react-loader-spinner'
 import { loginContext } from '../App'
@@ -16,6 +16,7 @@ function Dashboard() {
   const [gData, setGData] = useState()
   const [sData, setSData] = useState()
   const [loading, setLoading] = useState(true)
+  const [projects, setProjects] = useState()
 
   const [user] = useContext(loginContext)
   
@@ -41,6 +42,10 @@ function Dashboard() {
   
         get_guide().then((results)=>{
           setGData(results.data)
+        })
+
+        view_project_names().then((results)=>{
+          setProjects(results.data)
         })
         
         get_student().then((results)=>{
@@ -93,7 +98,26 @@ function Dashboard() {
             <New name="Guides" data={gData?gData:[]} account_type={user?user:''} />
             {user=="admin"?<New name="Coordinators" account_type={user} data={cData?cData:[]} />:<></>}
           </div>
+            
+            <div className='view py-3 mx-1 mx-lg-4 mx-3 mb-3'>
+              <h5 className='mx-1 mx-lg-4 mx-3 mb-3 heading '>Projects</h5>
+
+              <div className='mx-1 mx-lg-4 mx-3'>
+                {projects?projects.map((project, index)=>{
+                  return (
+                    <div key={index} className=' mx-1 mx-lg-4 mx-3 '>
+                        <Link to={`/project/${project.title}`}>
+                          <div className='d-flex align-items-center items   ' style={{color: '#000'}} ><FontAwesomeIcon icon={faProjectDiagram} /><p className=' ml-2 mb-0'>{project?project.title:''}</p></div>
+                        </Link>
+                        <div><p className='newHeading ml-4 item mb-2'> {project?project.description:''}</p></div>
+                      </div>
+                  )
+                }):<></>}
+              </div>
+            </div>
+
         </div>
+
       </div>
     )
   }else if(user==''){

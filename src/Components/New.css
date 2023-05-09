@@ -21,6 +21,12 @@
 .item{
     text-overflow: clip;
 }
+.items{
+    font-size: large;
+}
+.items>svg{
+    font-size: medium;
+}
 .heading{
     font-weight: 600;
 }

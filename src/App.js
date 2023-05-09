@@ -22,6 +22,7 @@ import { createContext, useEffect, useState } from 'react';
 import { get_token, set_user, update_token } from './Utils/services';
 import jwt_decode from "jwt-decode";
 import StudentDashboard from './Pages/StudentDashboard';
+import Project from './Pages/Project';
 
 export const loginContext = createContext()
 
@@ -76,7 +77,7 @@ function App() {
           <Route path="/forgot_password/:str" element={<ResetPassword/>} />
       </Routes>
       <div>
-            <DashSideBar />
+            {userAccount?<DashSideBar />:<></>}
         </div>
         <Routes>
 
@@ -91,6 +92,7 @@ function App() {
           <Route path="/add-guide" element={<AddGuide/>} />
           <Route path="/view-guide" element={<ViewGuide/>} />
           <Route path="/edit-coordinator/:str" element={<EditAccount/>} />
+          <Route path="/project/:str" element={<Project/>} />
           <Route path="/edit-account/:str" element={<EditGuide/>} />
           
           <Route path="/startProject" element={<StartProject/>} />
