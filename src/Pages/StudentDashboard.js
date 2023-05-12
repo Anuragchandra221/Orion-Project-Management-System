@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  get_pdf, get_project, get_task, get_token, upload_work } from '../Utils/services'
+import {  get_image, get_pdf, get_project, get_task, get_token, upload_work } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faFile, faHourglassEnd, faMultiply, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -12,8 +12,10 @@ function StudentDashboard() {
     const [project, setProject] = useState()
     const [tasks, setTasks] = useState()
     const [file, setFile] = useState()
+    const [files, setFiles] = useState()
     const [task, setTask] = useState()
     const [d, setD] = useState()
+    const [load, setLoad] = useState()
     const [err, setErr] = useState()
     let datetime;
 
@@ -44,18 +46,22 @@ function StudentDashboard() {
 
       const submitWork = (title) =>{
         // console.log(file, task, project.title)
-        if(file){
+        setLoad(true)
+        if(files){
             const formData = new FormData()
-            formData.append('file', file)
+            formData.append('file', files)
             formData.append('project',project.title)
             formData.append('task',task)
             upload_work(formData).then((results)=>{
-                setD('')
+              setD('')
+                setLoad(false)
             }).catch((err)=>{
-                console.log(err)
+                // console.log(err)
+                setLoad(false)
             })
         }else{
             setErr("No file choosen")
+            setLoad(false) 
             setTask(title)
         }
       }
@@ -80,6 +86,7 @@ function StudentDashboard() {
                     <div>
                         <div className='mx-3'>
                           {tasks?tasks.map((value, index)=>{
+                            // console.log(value)
                             datetime = new Date(value.due_date) 
                             let formattedDatetime = datetime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });  // format the datetime object
                             datetime = new Date(value.posted)
@@ -95,19 +102,26 @@ function StudentDashboard() {
                                   }</p>
                                   
                                 </div>
-                                  <p>{value.score_obtained}/{value.max_score}</p>
+                                {value.score_obtained?<p>{value.score_obtained}/{value.max_score}</p>:<></>}
+                                  
                                   <div className='mb-3'>
                                     {(value.works.length>0)?value.works.map((val, index)=>{
                                         return (
                                           <button className='file mb-2 mr-2' key={index} onClick={()=>{
                                             get_pdf(project.title, value.title, val).then((results)=>{
-                                              const fileData = new Blob([results.data]);
+                                              // const fileData = new Blob([results.data]);
                                               window.scrollTo(0,0)
-                                              setFile(fileData) 
+                                              setFile(results.data.file) 
                                               document.body.style.overflow = "hidden"
                                             })
+
+                                            // console.log(val)
+                                            // setFile(get_image(val))
+                                            //   window.scrollTo(0,0)
+                                            //   document.body.style.overflow = "hidden"
+                                            // console.log(get_image(val))
                                           }}>
-                                              <FontAwesomeIcon icon={faFile} /> {val.slice(6,)}
+                                              <FontAwesomeIcon icon={faFile} /> {val.slice(12,)} 
                                           </button>
                                         )
                                     }):<></>}
@@ -119,7 +133,7 @@ function StudentDashboard() {
                                         <div>
                                             <label className='mr-3'>Add Work</label>
                                             <input type='file' onChange={(e)=>{
-                                                setFile(e.target.files[0])
+                                                setFiles(e.target.files[0])
                                                 setTask(value.title)
                                             }}  />
                                         </div>
@@ -132,7 +146,7 @@ function StudentDashboard() {
                                    
                                   }</p>
                                   </div>
-                                  <button className='taskDues' onClick={submitWork.bind(null, value.title)} >Submit</button>
+                                  <button className='taskDues' style={load?{cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{ cursor:'pointer'}} onClick={submitWork.bind(null, value.title)} >Submit</button>
                                 </div>
                               </div>
                             )
@@ -147,7 +161,7 @@ function StudentDashboard() {
                             
                             <div>
 
-                                  <iframe src={URL.createObjectURL(file)} width="100%" height="100%" />
+                                  <iframe src={file} type="application/pdf" width="100%" height="100%" />
                                 </div>
                           </div>:<></>}
                         </div>

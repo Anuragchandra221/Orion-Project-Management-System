@@ -17,7 +17,7 @@ function ViewStudent() {
     const [user] = useContext(loginContext)
 
     useEffect(()=>{
-        if((user && user!=="admin" && user !== "coordinator" && account_type !== "guide" )  ){
+        if((user && user=="student" )  ){
             navigate("/login")
         }
         if(!get_token()){

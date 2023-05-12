@@ -74,9 +74,8 @@ function Project() {
                                                 return (
                                                   <button className='file mb-2 mr-2' key={index} onClick={()=>{
                                                     get_pdf(project.title, value.title, val).then((results)=>{
-                                                      const fileData = new Blob([results.data]);
                                                       window.scrollTo(0,0)
-                                                      setFile(fileData) 
+                                                      setFile(results.data.file) 
                                                       document.body.style.overflow = "hidden"
                                                     })
                                                   }}>
@@ -108,7 +107,7 @@ function Project() {
                                     
                                     <div>
         
-                                          <iframe src={URL.createObjectURL(file)} width="100%" height="100%" />
+                                          <iframe src={file} width="100%" height="100%" />
                                         </div>
                                   </div>:<></>}
                                 </div>

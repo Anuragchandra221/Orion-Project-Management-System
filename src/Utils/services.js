@@ -235,7 +235,6 @@ const get_pdf = (project, task, file)=>{
         "task":task,
         "file":file
     },{
-        responseType: 'arraybuffer',
         headers:{
             'Authorization': `Bearer ${get_token()}`
         }
@@ -272,6 +271,10 @@ const view_project_names = ()=>{
     })
 }
 
+const get_image = (img)=>{
+    return `http://res.cloudinary.com/ddhojwrtd/image/upload/v1/${img}.png`
+}
+
 export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project,
-        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks, view_projects, view_project_names
+        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks, view_projects, view_project_names, get_image
         }

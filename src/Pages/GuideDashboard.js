@@ -17,6 +17,7 @@ function GuideDashboard() {
     const [file, setFile] = useState()
     const [marks, setMarks] = useState()
     const [title, setTitle] = useState()
+    const [load, setLoad] = useState(false)
 
     const [user] = useContext(loginContext)
 
@@ -42,11 +43,13 @@ function GuideDashboard() {
       }, [user])
 
       const mark = (task)=>{
+        setLoad(true)
+
         if(title && task){
           if(title==task){
             if(marks && marks<=100){
               give_marks(marks, task, project.title).then((results)=>{
-                
+                setLoad(false)
               })
             }
           }
@@ -85,7 +88,7 @@ function GuideDashboard() {
                                       setMarks(e.target.value)
                                       setTitle(value.title)
                                     }} className='scoreInput mr-1' />/{value.max_score}</span>
-                                    <span><button className='markButton' onClick={(e)=>{
+                                    <span><button className='markButton' style={load?{cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{ cursor:'pointer'}} onClick={(e)=>{
                                       mark(value.title)
                                     }} >Mark</button></span>
                                   </div>
@@ -101,9 +104,8 @@ function GuideDashboard() {
                                         return (
                                             <button className='file mb-2 mr-2' key={index} onClick={()=>{
                                               get_pdf(project.title, value.title, val).then((results)=>{
-                                                const fileData = new Blob([results.data]);
                                                 window.scrollTo(0,0)
-                                                setFile(fileData) 
+                                                setFile(results.data.file) 
                                                 document.body.style.overflow = "hidden"
                                               })
                                             }}>
@@ -129,7 +131,7 @@ function GuideDashboard() {
                             
                             <div>
 
-                                  <iframe src={URL.createObjectURL(file)} width="100%" height="100%" />
+                                  <iframe src={file} width="100%" height="100%" />
                                 </div>
                           </div>:<></>}
                         </div>
