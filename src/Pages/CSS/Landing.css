@@ -4,7 +4,18 @@
     position: relative;
     background-color: #EAEDF2;
 }
-
+.landingInput{
+    width: 23em;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.landingInput>input{
+    width: 100%;
+}
+.suggestion{
+    
+}
 .landing-background{
     background-image: url('../../assets/images/banner.png');
     width: auto;

@@ -23,6 +23,8 @@ import { get_token, set_user, update_token } from './Utils/services';
 import jwt_decode from "jwt-decode";
 import StudentDashboard from './Pages/StudentDashboard';
 import Project from './Pages/Project';
+import UploadOld from './Pages/UploadOld';
+import GetProject from './Pages/GetProject';
 
 export const loginContext = createContext()
 
@@ -94,6 +96,8 @@ function App() {
           <Route path="/edit-coordinator/:str" element={<EditAccount/>} />
           <Route path="/project/:str" element={<Project/>} />
           <Route path="/edit-account/:str" element={<EditGuide/>} />
+          <Route path="/get-project/:str" element={<GetProject/>} />
+          <Route path="/upload-old" element={<UploadOld/>} />
           
           <Route path="/startProject" element={<StartProject/>} />
         </Routes>

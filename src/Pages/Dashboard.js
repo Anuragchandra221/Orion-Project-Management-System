@@ -90,6 +90,18 @@ function Dashboard() {
           </div>
         </Link>
           :<></>}
+
+          {
+            user=="admin"?
+            <Link to="/upload-old">
+              <div className='text-right p-2 m-2'>
+                <button className='theButton p-2' style={{ cursor: 'pointer'}}>Upload Old Projects</button>
+              </div>
+            </Link>
+            :<></>
+          }
+
+          
           
           
           

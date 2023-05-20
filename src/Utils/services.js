@@ -1,5 +1,5 @@
 
-import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_PDF, GET_PROJECT, GET_STUDENT, GET_TASK, GET_USER, GET_WORK, GIVE_MARKS, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, START_PROJECT, UPLOAD_WORK, VIEW_PROJECT, VIEW_PROJECTS } from "./constants";
+import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_OLD_PDF, GET_OLD_PROJECT, GET_PDF, GET_PROJECT, GET_STUDENT, GET_TASK, GET_USER, GET_WORK, GIVE_MARKS, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, SEARCH_OLD_PROJECT, START_PROJECT, UPLOAD_OLD_PROJECT, UPLOAD_WORK, VIEW_PROJECT, VIEW_PROJECTS } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -275,6 +275,34 @@ const get_image = (img)=>{
     return `http://res.cloudinary.com/ddhojwrtd/image/upload/v1/${img}.png`
 }
 
+const upload_old_project = (file)=>{
+    return axios.post(`${PROJECT_BASE_URL}${UPLOAD_OLD_PROJECT}`,file,{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+const search_old_project = (q)=>{
+    return axios.get(`${PROJECT_BASE_URL}${SEARCH_OLD_PROJECT}`,{
+        params: {
+          "q": q,
+        }
+      })
+}
+const get_old_project = (q)=>{
+    return axios.get(`${PROJECT_BASE_URL}${GET_OLD_PROJECT}`,{
+        params: {
+          "q": q,
+        }
+      })
+}
+const get_old_pdf = (q)=>{
+    return axios.post(`${PROJECT_BASE_URL}${GET_OLD_PDF}`,{
+        "q": q,
+      })
+}
+
 export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project,
-        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks, view_projects, view_project_names, get_image
+        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks, view_projects, view_project_names, get_image, upload_old_project, search_old_project, get_old_project,get_old_pdf
         }
