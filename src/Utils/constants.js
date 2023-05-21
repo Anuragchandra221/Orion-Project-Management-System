@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost:8000/api/"
-const PROJECT_BASE_URL = "http://localhost:8000/project/"
+const BASE_URL = "https://orion-management-backend-production.up.railway.app/api/"
+const PROJECT_BASE_URL = "https://orion-management-backend-production.up.railway.app/project/"
 const START_PROJECT = "start/"
 const LOGIN_URL = 'token/'
 const REFRESH_TOKEN = "token/refresh/"

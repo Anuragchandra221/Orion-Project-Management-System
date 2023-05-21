@@ -19,13 +19,12 @@ const update_token = ()=>{
     return axios.post(`${BASE_URL}${REFRESH_TOKEN}`, {"refresh":localStorage.getItem("refresh")})
 }
 
-const create_coordinator = (name, email, dob, gender, number, register, password)=>{
+const create_coordinator = (name, email, gender, number, register, password)=>{
     return axios.post(`${BASE_URL}${CREATE_COORDINATOR}`,{
         'email':email,
         'name':name,
         'password':password,
         "account_type":"coordinator",
-        'dob':dob,
         "gender":gender,
         "number":number,
         "register":register,
@@ -37,13 +36,12 @@ const create_coordinator = (name, email, dob, gender, number, register, password
     })
 }
 
-const create_guide = (name, email, dob, gender, number, register, password)=>{
+const create_guide = (name, email, gender, number, register, password)=>{
     return axios.post(`${BASE_URL}${CREATE_GUIDE}`,{
         'email':email,
         'name':name,
         'password':password,
         "account_type":"guide",
-        'dob':dob,
         "gender":gender,
         "number":number,
         "register":register,
@@ -55,13 +53,12 @@ const create_guide = (name, email, dob, gender, number, register, password)=>{
     })
 }
 
-const create_student = (name, email, dob, gender, number, register, password)=>{
+const create_student = (name, email, gender, number, register, password)=>{
     return axios.post(`${BASE_URL}${CREATE_STUDENT}`,{
         'email':email,
         'name':name,
         'password':password,
         "account_type":"student",
-        'dob':dob,
         "gender":gender,
         "number":number,
         "register":register,
@@ -115,11 +112,11 @@ const get_user = (email)=>{
     })
 }
 
-const edit = (name, email, dob, gender, number, register)=>{
+const edit = (name, email, gender, number, register)=>{
+    console.log(name, email, gender, number, register)
     return axios.post(`${BASE_URL}${EDIT}`,{
         'email':email,
         'name':name,
-        'dob':dob,
         "gender":gender,
         "number":number,
         "register":register,
@@ -131,11 +128,10 @@ const edit = (name, email, dob, gender, number, register)=>{
     })
 }
 
-const edit_guide = (name, email, dob, gender, number, register)=>{
+const edit_guide = (name, email, gender, number, register)=>{
     return axios.post(`${BASE_URL}${EDIT_GUIDE}`,{
         'email':email,
         'name':name,
-        'dob':dob,
         "gender":gender,
         "number":number,
         "register":register,

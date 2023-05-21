@@ -39,7 +39,7 @@ function EditGuide() {
 
     const editCoordinator = ()=>{
         setLoad(true)
-        edit_guide(user.name, user.email, user.dob, user.gender, user.number, user.register).then((results)=>{
+        edit_guide(user.name, user.email, user.gender, user.number, user.register).then((results)=>{
                 navigate("/dashboard")
             }).catch((err)=>{
                 setLoad(false)
@@ -74,13 +74,6 @@ function EditGuide() {
                                     <option value="Male">Male</option> 
                                     <option value="Female">Female</option> 
                                     </select>                        
-                                </div>
-                                <div className='mt-4 addcooitem'>
-                                    <p className='mb-1'>Enter DOB</p>
-                                    <input type="date" value={user.dob} placeholder='DOB' onChange={(e)=>{
-                                        user.dob=e.target.value
-                                        setName(e.target.value)
-                                    }} />
                                 </div>
                                 <div className='mt-4 addcooitem'>
                                     <p className='mb-1'>Email Address</p>

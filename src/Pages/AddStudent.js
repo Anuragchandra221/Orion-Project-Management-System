@@ -12,7 +12,6 @@ function AddStudent() {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [number, setNumber] = useState()
-    const [dob, setDob] = useState()
     const [err, setErr] = useState()
     const [gender, setGender] = useState("Male")
     const [password, setPassword] = useState()
@@ -35,9 +34,9 @@ function AddStudent() {
     const create = ()=>{
         setLoad(true)
         console.log(gender)
-        if(name && email && dob && password && confirmPassword && gender && number && register){
+        if(name && email && password && confirmPassword && gender && number && register){
             if(password==confirmPassword){
-                create_student(name, email, dob, gender, number, register, password).then((results)=>{
+                create_student(name, email, gender, number, register, password).then((results)=>{
                     if(results.data.err){
                         setErr(results.data.err)
                         setLoad(false)
@@ -83,12 +82,6 @@ function AddStudent() {
                                   <option value="Male">Male</option> 
                                   <option value="Female">Female</option> 
                                   </select>                        
-                              </div>
-                              <div className='mt-4 addcooitem'>
-                                  <p className='mb-1'>Enter DOB</p>
-                                  <input type="date" placeholder='DOB' onChange={(e)=>{
-                                      setDob(e.target.value)
-                                  }} />
                               </div>
                               <div className='mt-4 addcooitem'>
                                   <p className='mb-1'>Email Address</p>

@@ -13,7 +13,6 @@ function AddCoordinator() {
     const [email, setEmail] = useState()
     const [number, setNumber] = useState()
     const [err, setErr] = useState()
-    const [dob, setDob] = useState()
     const [gender, setGender] = useState("Male")
     const [password, setPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
@@ -35,10 +34,10 @@ function AddCoordinator() {
 
     const create = ()=>{
         setLoad(true)
-        if(name && email && dob && password && confirmPassword && gender && number && register){
+        if(name && email && password && confirmPassword && gender && number && register){
             if( password==confirmPassword ){
 
-                create_coordinator(name, email, dob, gender, number, register, password).then((results)=>{
+                create_coordinator(name, email, gender, number, register, password).then((results)=>{
                     if(results.data.err){
                         setErr(results.data.err)
                         setLoad(false)
@@ -86,12 +85,6 @@ function AddCoordinator() {
                                   <option value="Male">Male</option> 
                                   <option value="Female">Female</option> 
                                   </select>                        
-                              </div>
-                              <div className='mt-4 addcooitem'>
-                                  <p className='mb-1'>Enter DOB</p>
-                                  <input type="date" placeholder='DOB' onChange={(e)=>{
-                                      setDob(e.target.value)
-                                  }} />
                               </div>
                               <div className='mt-4 addcooitem'>
                                   <p className='mb-1'>Email Address</p>

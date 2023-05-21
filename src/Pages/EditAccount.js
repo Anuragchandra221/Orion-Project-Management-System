@@ -38,8 +38,10 @@ function EditAccount() {
 
     const editCoordinator = ()=>{
         setLoad(true)
-        edit(user.name, user.email, user.dob, user.gender, user.number, user.register).then((results)=>{
-                navigate("/dashboard")
+        edit(user.name, user.email,user.gender, user.number, user.register).then((results)=>{
+            console.log(results.data)
+            setLoad(false)
+                // navigate("/dashboard")
             }).catch((err)=>{
                 setLoad(false)
             })
@@ -73,13 +75,6 @@ function EditAccount() {
                                     <option value="Male">Male</option> 
                                     <option value="Female">Female</option> 
                                     </select>                        
-                                </div>
-                                <div className='mt-4 addcooitem'>
-                                    <p className='mb-1'>Enter DOB</p>
-                                    <input type="date" value={user.dob} placeholder='DOB' onChange={(e)=>{
-                                        user.dob=e.target.value
-                                        setName(e.target.value)
-                                    }} />
                                 </div>
                                 <div className='mt-4 addcooitem'>
                                     <p className='mb-1'>Email Address</p>
