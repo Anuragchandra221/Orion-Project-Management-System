@@ -76,6 +76,9 @@ function StudentDashboard() {
         return (
             <div className='dashboard d-flex' >
                 <div className='dashmain mt-5'>
+                <div className='text-righleftt p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}>
+                  <p>Student Dashboard</p>
+                </div>
                 <div className='view d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4'>
                     <div className='d-flex justify-content-between mx-3 mb-3'>
                       <div>

@@ -63,10 +63,19 @@ function Dashboard() {
     return (
       <div className='dashboard d-flex' >
         <div className='dashmain '>
+        {user=="admin"?
+          <div className='text-righleftt p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}>
+          <p>Admin Dashboard</p>
+        </div>
+          :
+          
+          <div className='text-left p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}> 
+            <p>Coordinator Dashboard</p>
+          </div>}
           <div style={{position: 'relative'}}>
   
             {!loading?
-            <div className='d-flex align-items-start mt-3 dashboardCard'>
+            <div className='d-flex align-items-start mt-1 dashboardCard'>
             <DashboardCard name="Students" count={no[3]?no[3].count: 0} icon={<FontAwesomeIcon icon={faUser}/> } />
             <DashboardCard name="Coordinators" count={no[1]?no[1].count: 0} icon={<FontAwesomeIcon icon={faGauge}/> } />
             <DashboardCard name="Guides" count={no[2]?no[2].count: 0} icon={<FontAwesomeIcon icon={faPersonChalkboard}/> } />
@@ -83,6 +92,7 @@ function Dashboard() {
                 />
             </div>}
           </div>
+          
           {user=="coordinator"?
           <Link to="/startProject">
           <div className='text-right p-2 m-2'>
