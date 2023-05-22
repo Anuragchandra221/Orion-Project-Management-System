@@ -12,7 +12,7 @@ function ResetPasswordConfirm() {
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if(!get_token()){
+        if(get_token()){
           navigate('/login')
         }
       }, [loading])
