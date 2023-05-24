@@ -100,7 +100,7 @@ function EditAccount() {
                             </div>
                             <div className='w-100 d-flex justify-content-end mt-3'>
                                 <button className='mr-2 theButton py-1' style={load?{width:'14em', cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{width:'14em', cursor:'pointer'}}  onClick={editCoordinator} >Edit</button>
-                                <button className='py-1 mr-0 mr-lg-3' style={{width:'10em', backgroundColor: '#c0c0c0', border: '2px solid #c0c0c0', borderRadius: '10px'}} onClick={()=>console.log(load)} >Cancel</button>
+                                <button className='py-1 mr-0 mr-lg-3' style={{width:'10em', backgroundColor: '#c0c0c0', border: '2px solid #c0c0c0', borderRadius: '10px', cursor: 'pointer'}} onClick={()=> navigate(-1)} >Cancel</button>
                             </div>
                         </div>
                     </div>

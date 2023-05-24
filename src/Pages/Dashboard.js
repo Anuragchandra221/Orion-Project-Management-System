@@ -4,7 +4,7 @@ import DashboardCard from '../Components/DashboardCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faProjectDiagram, faUser } from '@fortawesome/free-solid-svg-icons'
 import New from '../Components/New'
-import { get_coordinator, get_count, get_guide, get_project, get_student, get_task, get_token, update_token, view_project_names, view_projects } from '../Utils/services'
+import { get_coordinator, get_count, get_guide, get_project, get_student, get_task, get_token, search_old_project, update_token, view_project_names, view_projects } from '../Utils/services'
 import { Link, useNavigate } from 'react-router-dom'
 import { CirclesWithBar } from 'react-loader-spinner'
 import { loginContext } from '../App'
@@ -19,6 +19,16 @@ function Dashboard() {
   const [projects, setProjects] = useState()
 
   const [user] = useContext(loginContext)
+  const [data, setData] = useState()
+  const [values, setValues] = useState([])
+  const search = ()=>{
+    console.log(data)
+    search_old_project(data).then((results)=>{
+      setValues(results.data)
+    }).catch((err)=>{
+
+    })
+  }
   
 
   useEffect(()=>{
@@ -63,16 +73,33 @@ function Dashboard() {
     return (
       <div className='dashboard d-flex' >
         <div className='dashmain '>
-        {user=="admin"?
+        
           <div className='text-righleftt p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}>
-          <p>Admin Dashboard</p>
+          {user=="admin"?<p>Admin Dashboard</p>:<p>Coordinator Dashboard</p>}
+          <div className='landingInput'>
+            <input type='text '  placeholder='Search Projects...' onChange={(e)=>{
+              setData(e.target.value)
+              search()
+            }} />
+            <div className='mt-1' style={{maxHeight: '10em', backgroundColor:'white'}}>
+              {values.map((val, index)=>{
+                return (
+                  <Link to={`/get-project/${val.title}`}>
+                  <div className='suggestion p-2' key={index}> 
+                    {val.title}
+                  </div>
+                  </Link>
+                  
+                )
+              
+              })}
+            </div>
+            
+          </div>
         </div>
-          :
-          
-          <div className='text-left p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}> 
-            <p>Coordinator Dashboard</p>
-          </div>}
           <div style={{position: 'relative'}}>
+
+          
   
             {!loading?
             <div className='d-flex align-items-start mt-1 dashboardCard'>
@@ -121,7 +148,7 @@ function Dashboard() {
             {user=="admin"?<New name="Coordinators" account_type={user} data={cData?cData:[]} />:<></>}
           </div>
             
-            <div className='view py-3 mx-1 mx-lg-4 mx-3 mb-3'>
+            {/* <div className='view py-3 mx-1 mx-lg-4 mx-3 mb-3'>
               <h5 className='mx-1 mx-lg-4 mx-3 mb-3 heading '>Projects</h5>
 
               <div className='mx-1 mx-lg-4 mx-3'>
@@ -136,7 +163,7 @@ function Dashboard() {
                   )
                 }):<></>}
               </div>
-            </div>
+            </div> */}
 
         </div>
 

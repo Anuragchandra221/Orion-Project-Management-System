@@ -8,6 +8,7 @@ import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { loginContext } from '../App'
 
 function ViewStudent() {
+    let email = ''
 
     const [loading, setLoading] = useState(true)
     const [account_type, setAccountType] = useState('')
@@ -53,12 +54,13 @@ function ViewStudent() {
                             <div className='item heading'>Phone</div>
                             <div className='item heading'>Action</div>
                                         {sData?sData.map((obj, index) => (
+                                            
                                             <React.Fragment key={index}>
                                             {Object.values(obj).map((value, index) => (
                                                 <div key={index} className="item">{value}</div>
                                             ))}
                                             <div className='item'>
-                                                <button style={{border: 'none',backgroundColor: '#fff'}}><FontAwesomeIcon icon={faPen} /></button>
+                                                <Link to={`/edit-account/${obj.email}`}><button style={{border: 'none',backgroundColor: '#fff', cursor: 'pointer'}}><FontAwesomeIcon icon={faPen} /></button></Link>
                                             </div>
                                             </React.Fragment>
                                         )):''}

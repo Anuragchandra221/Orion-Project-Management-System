@@ -1,5 +1,5 @@
 
-import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_OLD_PDF, GET_OLD_PROJECT, GET_PDF, GET_PROJECT, GET_STUDENT, GET_TASK, GET_USER, GET_WORK, GIVE_MARKS, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, SEARCH_OLD_PROJECT, START_PROJECT, UPLOAD_OLD_PROJECT, UPLOAD_WORK, VIEW_PROJECT, VIEW_PROJECTS } from "./constants";
+import { BASE_URL, CREATE_COORDINATOR, CREATE_GUIDE, CREATE_STUDENT, CREATE_TASK, EDIT, EDIT_GUIDE, EDIT_TASKS, GET_COORDINATOR, GET_COUNT, GET_GUIDE, GET_OLD_PDF, GET_OLD_PROJECT, GET_OLD_PROJECT_BY_YEAR, GET_PDF, GET_PROJECT, GET_STUDENT, GET_TASK, GET_TASKS, GET_USER, GET_WORK, GIVE_MARKS, LOGIN_URL, PROJECT_BASE_URL, REFRESH_TOKEN, RESET_PASSWORD, RESET_PASSWORD_CONFIRM, SEARCH_OLD_PROJECT, START_PROJECT, UPLOAD_OLD_PROJECT, UPLOAD_WORK, VIEW_PROJECT, VIEW_PROJECTS } from "./constants";
 import axios from 'axios'
 
 const login = (email, password)=>{
@@ -283,6 +283,9 @@ const search_old_project = (q)=>{
     return axios.get(`${PROJECT_BASE_URL}${SEARCH_OLD_PROJECT}`,{
         params: {
           "q": q,
+        },
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
         }
       })
 }
@@ -299,6 +302,43 @@ const get_old_pdf = (q)=>{
       })
 }
 
+const get_old_project_by_year = (year)=>{
+    return axios.get(`${PROJECT_BASE_URL}${GET_OLD_PROJECT_BY_YEAR}`,{
+        params: {
+          "year": year,
+        },
+        headers: {
+            "Authorization": `Bearer ${get_token()}`
+        }
+      })
+}
+
+const retrieve_tasks = (project, task)=>{
+    console.log(project, task)
+    return axios.post(`${PROJECT_BASE_URL}${GET_TASKS}`,{
+        "project": project,
+        "task": task,
+    },{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
+const edit_tasks = (project_title, task, task_title, description, due_date)=>{
+    return axios.post(`${PROJECT_BASE_URL}${EDIT_TASKS}`,{
+        "project_title": project_title,
+        "task": task,
+        'task_title': task_title,
+        'description': description,
+        'due_date': due_date
+    },{
+        headers:{
+            'Authorization': `Bearer ${get_token()}`
+        }
+    })
+}
+
 export {login, set_user, get_token, update_token, create_coordinator, get_count, get_coordinator, password_reset_confirm, password_reset, create_guide, get_guide, get_student, create_student, edit, get_user, edit_guide, start_project,
-        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks, view_projects, view_project_names, get_image, upload_old_project, search_old_project, get_old_project,get_old_pdf
+        get_project, create_task, get_task, get_work, upload_work, get_pdf,give_marks, view_projects, view_project_names, get_image, upload_old_project, search_old_project, get_old_project,get_old_pdf, get_old_project_by_year, retrieve_tasks, edit_tasks
         }

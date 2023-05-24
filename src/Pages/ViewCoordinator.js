@@ -64,7 +64,7 @@ function ViewCoordinator() {
                                                   <div key={index} className="item">{value}</div>
                                               ))}
                                               <div className='item'>
-                                                  <button style={{border: 'none',backgroundColor: '#fff'}}><FontAwesomeIcon icon={faPen} /></button>
+                                              <Link to={`/edit-account/${obj.email}`}><button style={{border: 'none',backgroundColor: '#fff', cursor: 'pointer'}}><FontAwesomeIcon icon={faPen} /></button></Link>
                                               </div>
                                               </React.Fragment>
                                           )):''}

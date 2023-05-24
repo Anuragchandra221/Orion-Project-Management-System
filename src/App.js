@@ -25,6 +25,7 @@ import StudentDashboard from './Pages/StudentDashboard';
 import Project from './Pages/Project';
 import UploadOld from './Pages/UploadOld';
 import GetProject from './Pages/GetProject';
+import EditTask from './Pages/EditTask';
 
 export const loginContext = createContext()
 
@@ -89,12 +90,13 @@ function App() {
           <Route path="/add-coordinator" element={<AddCoordinator/>} />
           <Route path="/view-coordinator" element={<ViewCoordinator/>} />
           <Route path="/add-student" element={<AddStudent/>} />
-          <Route path="/assign-task" element={<AssignTask/>} />
+          <Route path="/assign-task/:project" element={<AssignTask/>} />
+          <Route path="/edit-task/:project/:task" element={<EditTask/>} />
           <Route path="/view-student" element={<ViewStudent/>} />
           <Route path="/add-guide" element={<AddGuide/>} />
           <Route path="/view-guide" element={<ViewGuide/>} />
           <Route path="/edit-coordinator/:str" element={<EditAccount/>} />
-          <Route path="/project/:str" element={<Project/>} />
+          <Route path="/project" element={<Project/>} />
           <Route path="/edit-account/:str" element={<EditGuide/>} />
           <Route path="/get-project/:str" element={<GetProject/>} />
           <Route path="/upload-old" element={<UploadOld/>} />

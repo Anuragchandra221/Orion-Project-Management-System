@@ -40,7 +40,7 @@ function New(props) {
                 <div className='item heading'>Email</div>
                 <div className='item heading'>Phone</div>
                 <div className='item heading'>Action</div>
-                            {props.data?props.data.map((obj, index) => (
+                            {props.data?props.data.filter((obj, index) => index <= 4).map((obj, index) => (
                                 <React.Fragment key={index}>
                                 {Object.values(obj).map((value, index) => (
                                     <div key={index} className="item">{value}</div>

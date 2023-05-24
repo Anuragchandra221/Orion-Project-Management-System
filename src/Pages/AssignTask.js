@@ -2,13 +2,12 @@ import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
 import { get_token } from '../Utils/services'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { create_task } from '../Utils/services'
 import { get_project } from '../Utils/services'
 import { loginContext } from '../App'
 
 function AssignTask() {
-    const time = 9*60*1000
 
     const [err, setErr] = useState()
     const [load, setLoad] = useState(false)
@@ -22,7 +21,11 @@ function AssignTask() {
 
     const navigate = useNavigate()
     const [user] = useContext(loginContext)
+    const params = useParams()
+    console.log(params)
 
+    const paramEmail = params.project
+    console.log(paramEmail) 
     useEffect(()=>{
         if(user && user!=="guide"){
             navigate("/dashboard")
@@ -42,7 +45,7 @@ function AssignTask() {
         // 2020-08-04T00:00:00Z
         const new_due = date+'T'+due_time+"Z"
         console.log(title, description, new_due)
-        create_task(project.title, title, description, new_due).then((results)=>{
+        create_task(paramEmail, title, description, new_due).then((results)=>{
             if(results.data.msg){
                 navigate('/dashboardg')
             }else{
@@ -92,7 +95,7 @@ function AssignTask() {
                     <div className='w-100 d-flex justify-content-end mt-3'>
                         {err?<p className='mr-3 text-danger mb-0 mt-1'>{err}</p>:<></>}
                         <button className='mr-2 theButton py-1' style={load?{width:'14em', cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{width:'14em', cursor:'pointer'}}  onClick={create} >Create New Task</button>
-                        <button className='py-1 mr-0 mr-lg-3' style={{width:'10em', backgroundColor: '#c0c0c0', border: '2px solid #c0c0c0', borderRadius: '10px'}} onClick={()=>console.log(load)} >Cancel</button>
+                        <button className='py-1 mr-0 mr-lg-3' style={{width:'10em', backgroundColor: '#c0c0c0', border: '2px solid #c0c0c0', borderRadius: '10px', cursor: 'pointer'}} onClick={()=> navigate(-1)}>Cancel</button>
                     </div>
                 </div>
             </div>

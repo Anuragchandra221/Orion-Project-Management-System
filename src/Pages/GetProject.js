@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { get_old_pdf, get_old_project } from '../Utils/services'
+import { get_old_pdf, get_old_project, get_token } from '../Utils/services'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile, faMultiply } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,10 +11,14 @@ function GetProject() {
 
     const navigate = useNavigate()
     useEffect(()=>{
+      if(!get_token()){
+        navigate('/login')
+      }else{
+          // navigate("")
+      }
         const string = params.str
         get_old_project(string).then((results)=>{
             setValues(results.data)
-            console.log(results.data)
         })
     },[])
 if(values){
@@ -39,6 +43,14 @@ if(values){
                                     }}>
                                         <FontAwesomeIcon icon={faFile} /> {values.files.slice(6,)}
                                     </button>
+                                    <div><p className='newHeading ml-4 item mb-2'>People</p></div>
+                                  <ol>
+                                    <li className=' mx-1 mx-lg-4 mx-3 '>{values.guide} - guide</li>
+                                    <li className=' mx-1 mx-lg-4 mx-3 '>{values.std1}</li>
+                                    <li className=' mx-1 mx-lg-4 mx-3 '>{values.std2}</li>
+                                    <li className=' mx-1 mx-lg-4 mx-3 '>{values.std3}</li>
+                                    <li className=' mx-1 mx-lg-4 mx-3 '>{values.std4}</li>
+                                  </ol>
                   {file?<div  className='files'>
                     <div className='text-right'>
                     <button onClick={()=>{

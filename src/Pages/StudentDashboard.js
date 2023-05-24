@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  get_image, get_pdf, get_project, get_task, get_token, upload_work } from '../Utils/services'
+import {  get_image, get_pdf, get_project, get_task, get_token, search_old_project, upload_work } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faFile, faHourglassEnd, faMultiply, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
@@ -20,6 +20,16 @@ function StudentDashboard() {
     let datetime;
 
     const [user] = useContext(loginContext)
+    const [data, setData] = useState()
+    const [values, setValues] = useState([])
+    const search = ()=>{
+      console.log(data)
+      search_old_project(data).then((results)=>{
+        setValues(results.data)
+      }).catch((err)=>{
+
+      })
+    }
 
 
     const navigate = useNavigate()
@@ -32,18 +42,12 @@ function StudentDashboard() {
           navigate('/login')
         }else{
           get_project().then((results)=>{
-            setProject(results.data)
+            console.log(results.data)
+            setProject(results.data[0])
 
-            get_task(results.data.title).then((results)=>{
-              // results.data.due_date = results.data.due_date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });  
-              setTasks(results.data)
-            //   console.log(results.data)
-              setLoading(false)
-            }).catch((err)=>{
-
-            }).catch((err)=>{
-              
-            })
+            setTasks(results.data)
+          //   console.log(results.data)
+            setLoading(false)
           })
         }
       }, [d,user]) 
@@ -70,14 +74,34 @@ function StudentDashboard() {
         }
       }
 
-      if(loading){
-
-      }else{
+      if(
+        !loading
+      ){
         return (
             <div className='dashboard d-flex' >
-                <div className='dashmain mt-5'>
-                <div className='text-righleftt p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}>
+                <div className='dashmain'>
+                <div className='leftt p-2 m-2 mb-0 pb-0 ml-3' style={{fontSize: 'larger', fontWeight: 'bold'}}>
                   <p>Student Dashboard</p>
+                  <span className='landingInput'>
+                    <input type='text '  placeholder='Search Projects...' onChange={(e)=>{
+                      setData(e.target.value)
+                      search()
+                    }} />
+                    <div className='mt-1' style={{maxHeight: '10em', backgroundColor:'white'}}>
+                      {values.map((val, index)=>{
+                        return (
+                          <Link to={`/get-project/${val.title}`}>
+                          <div className='suggestion p-2' key={index}> 
+                            {val.title}
+                          </div>
+                          </Link>
+                          
+                        )
+                      
+                      })}
+                    </div>
+                    
+                  </span>
                 </div>
                 <div className='view d-flex justify-content-start aligin-items-center py-3 mx-1 mx-lg-4'>
                     <div className='d-flex justify-content-between mx-3 mb-3'>
@@ -92,7 +116,7 @@ function StudentDashboard() {
                     </div>
                     <div>
                         <div className='mx-3'>
-                          {tasks?tasks.map((value, index)=>{
+                          {project.tasks?project.tasks.map((value, index)=>{
                             // console.log(value)
                             datetime = new Date(value.due_date) 
                             let formattedDatetime = datetime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });  // format the datetime object

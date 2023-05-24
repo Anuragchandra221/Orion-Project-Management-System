@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import './DashSideBar.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGauge, faPersonChalkboard, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faGauge, faPersonChalkboard, faUser, faRightFromBracket, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginContext } from '../App'
 
@@ -41,6 +41,10 @@ function DashSideBar() {
            {user=="admin" || user=="coordinator"?<div className='sidebarItem mt-3 mt-lg-5'>
                 <FontAwesomeIcon icon={faPersonChalkboard}/> 
                 <Link to="/view-guide"><p className='sidebarText ml-2 mb-0' style={{cursor: 'pointer', color: '#fff'}}>Guide</p></Link>
+            </div>:<></>}
+           {user=="admin" || user=="coordinator"?<div className='sidebarItem mt-3 mt-lg-5'>
+                <FontAwesomeIcon icon={faProjectDiagram}/> 
+                <Link to="/project"><p className='sidebarText ml-2 mb-0' style={{cursor: 'pointer', color: '#fff'}}>Projects</p></Link>
             </div>:<></>}
             
         </div>
