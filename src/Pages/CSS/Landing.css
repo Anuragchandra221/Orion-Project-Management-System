@@ -8,6 +8,7 @@
     width: 23em;
     position: absolute;
     top: 10px;
+    z-index: 2;
     right: 10px;
 }
 .landingInput>input{

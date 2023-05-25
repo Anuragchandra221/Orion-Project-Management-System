@@ -131,7 +131,7 @@ function GuideDashboard() {
                     <div>
                         <div className='mx-3'>
                           {/* {console.log(project.tasks)} */}
-                          {project[i].tasks?project[i].tasks.map((value, index)=>{
+                          {project[i]?project[i].tasks?project[i].tasks.map((value, index)=>{
                             datetime = new Date(value.due_date) 
                             let formattedDatetime = datetime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });  // format the datetime object
                             return (
@@ -175,7 +175,7 @@ function GuideDashboard() {
                                 </div>
                               </div>
                             )
-                          }):''}
+                          }):'':<></>}
                           {file?<div  className='files'>
                             <div className='text-right'>
                             <button onClick={()=>{

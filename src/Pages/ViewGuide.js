@@ -40,7 +40,7 @@ function ViewGuide() {
                     <div className='d-flex justify-content-between mx-3 mb-3'>
                         <div><h3 className='newHeading'>Newly added Guides</h3></div>
                         <div className='mr-2 mr-lg-0'>
-                            <Link to="/add-coordinator"><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
+                            <Link to="/add-guide"><button className='tableButton  px-1 px-lg-3 'style={{cursor: 'pointer'}} >Add New</button></Link>
                             
                         </div>
             
