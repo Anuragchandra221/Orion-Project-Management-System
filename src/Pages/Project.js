@@ -8,8 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 function Project() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
-    const [user] = useContext(loginContext)
     const [file, setFile] = useState()
+    const [user] = useContext(loginContext)
     const [projects, setProjects] = useState()
     const [projects2, setProjects2] = useState()
     let datetime = new Date()
@@ -98,11 +98,29 @@ function Project() {
                                 <li className=' mx-1 mx-lg-4 mx-3 '>{project.std3}</li>
                                 <li className=' mx-1 mx-lg-4 mx-3 '>{project.std4}</li>
                                 </ol>
+                                <button className='file mb-2 mr-2' key={index} onClick={()=>{
+                                  setFile(project.files) 
+                                  window.scrollTo(0,0)
+                                  document.body.style.overflow = "hidden"
+                                    }}>{project.files.slice(12,)}</button>
                               </div>
                           )
                         }):<></>}
                       </div>
                       }
+                      {file?<div  className='files'>
+                        <div className='text-right'>
+                        <button onClick={()=>{
+                          setFile()
+                          document.body.style.overflow = "visible"
+                        }} className='closeButton' ><FontAwesomeIcon icon={faMultiply} /></button>
+                        </div>
+                        
+                        <div>
+
+                              <iframe src={file} type="application/pdf" width="100%" height="100%" />
+                            </div>
+                      </div>:<></>}
                       </div>
                         </div>
                         

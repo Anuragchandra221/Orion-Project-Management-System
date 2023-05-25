@@ -116,7 +116,7 @@ function StudentDashboard() {
                     </div>
                     <div>
                         <div className='mx-3'>
-                          {project.tasks?project.tasks.map((value, index)=>{
+                          {project?project.tasks?project.tasks.map((value, index)=>{
                             // console.log(value)
                             datetime = new Date(value.due_date) 
                             let formattedDatetime = datetime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });  // format the datetime object
@@ -181,7 +181,7 @@ function StudentDashboard() {
                                 </div>
                               </div>
                             )
-                          }):''}
+                          }):'':''}
                           {file?<div  className='files'>
                             <div className='text-right'>
                             <button onClick={()=>{
