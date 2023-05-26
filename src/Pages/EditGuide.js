@@ -21,7 +21,7 @@ function EditGuide() {
 
     useEffect(()=>{
         const paramEmail = params.str
-        if(userr && userr!=="coordinator"){
+        if(userr && userr!=="coordinator" && userr!=="guide"){
             navigate("/dashboard")
         }
         if(!get_token()){
@@ -52,7 +52,7 @@ function EditGuide() {
                 <div className='dashmain'>
                     <div className='addcoo mt-5 mx-1 mx-lg-0 ml-lg-3 mb-4'>
                         <div className='d-flex justify-content-between px-3'>
-                                <h3>Edit Coordinator</h3>
+                                <h3>Edit Account</h3>
                                 <button className='theButton' style={{width:'9em'}}>Coordinator list</button>
                             
                         </div>
