@@ -81,7 +81,7 @@ function Dashboard() {
               setData(e.target.value)
               search()
             }} />
-            <div className='mt-1' style={{maxHeight: '10em', backgroundColor:'white'}}>
+            <div className='mt-1 landinput' style={{maxHeight: '13em', backgroundColor:'white'}}>
               {values.map((val, index)=>{
                 return (
                   <Link to={`/get-project/${val.title}`}>
