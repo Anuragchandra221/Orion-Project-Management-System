@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faFile, faHourglassEnd, faMultiply, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import './CSS/GuideDashboard.css'
 import { loginContext } from '../App'
+import jwt_decode from "jwt-decode";
 function StudentDashboard() { 
     const [loading, setLoading] = useState(true)
     const [project, setProject] = useState()
@@ -18,6 +19,7 @@ function StudentDashboard() {
     const [load, setLoad] = useState()
     const [err, setErr] = useState()
     let datetime;
+    let userdetails = null 
 
     const [user] = useContext(loginContext)
     const [data, setData] = useState()
@@ -41,6 +43,9 @@ function StudentDashboard() {
         if(!get_token()){
           navigate('/login')
         }else{
+          console.log(get_token())
+          userdetails = jwt_decode(get_token())
+          console.log(userdetails)
           get_project().then((results)=>{
             console.log(results.data)
             setProject(results.data[0])
@@ -133,7 +138,16 @@ function StudentDashboard() {
                                   }</p>
                                   
                                 </div>
-                                {value.score_obtained?<p>{value.score_obtained}/{value.max_score}</p>:<></>}
+                                {console.log("values ", value.marks)}
+                                {console.log(jwt_decode(get_token()).email)}
+                                {value.marks.map((val, index)=>{
+                                  if(jwt_decode(get_token()).email == val.user.email){
+                                      return (
+                                          <p>{val.marks}/{value.max_score}</p>
+
+                                      )
+                                  }
+                                })}
                                   
                                   <div className='mb-3'>
                                     {(value.works.length>0)?value.works.map((val, index)=>{

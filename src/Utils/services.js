@@ -237,11 +237,12 @@ const get_pdf = (project, task, file)=>{
     })
 }
 
-const give_marks = (marks, task, project)=>{
+const give_marks = (marks, task, project, user)=>{
     return axios.post(`${PROJECT_BASE_URL}${GIVE_MARKS}`,{
         "project": project,
         "task": task,
-        "score": marks
+        "score": marks,
+        "user": user
     },{
         headers:{
             'Authorization': `Bearer ${get_token()}`

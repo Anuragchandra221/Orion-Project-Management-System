@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import './CSS/AddCoordinator.css'
 import './CSS/Dashboard.css'
-import {  file, get_pdf, get_project, get_task, get_token, give_marks, search_old_project } from '../Utils/services'
+import {  file, get_pdf, get_project, get_student, get_task, get_token, give_marks, search_old_project } from '../Utils/services'
 import { useNavigate, Link } from 'react-router-dom'
 import './CSS/GuideDashboard.css'
 import { loginContext } from '../App'
@@ -15,6 +15,7 @@ function GuideDashboard() {
     const [tasks, setTasks] = useState()
     let datetime;
     const [file, setFile] = useState()
+    const [sData, setSData] = useState()
     const [marks, setMarks] = useState()
     const [title, setTitle] = useState()
     const [load, setLoad] = useState(false)
@@ -64,13 +65,13 @@ function GuideDashboard() {
         }
       }, [user])
 
-      const mark = (task)=>{
+      const mark = (task,user)=>{
         setLoad(true)
-
-        if(title && task){
+        console.log(task, user, project[i].title, marks)
+        if(title && task && user){
           if(title==task){
             if(marks && marks<=100){
-              give_marks(marks, task, project.title).then((results)=>{
+              give_marks(marks, task, project[i].title, user).then((results)=>{
                 setLoad(false)
               })
             }
@@ -135,44 +136,69 @@ function GuideDashboard() {
                             datetime = new Date(value.due_date) 
                             let formattedDatetime = datetime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });  // format the datetime object
                             return (
-                              <div className='mt-4' key={index}>
-                                <div className='d-flex justify-content-between'>
-                                  <p className='task_title'>{value.completed?<span className='mr-2' style={{color: 'green'}} ><FontAwesomeIcon icon={faCircleCheck} /></span>:<span className='mr-2' style={{color: 'orange'}}><FontAwesomeIcon icon={faHourglassEnd} /></span>}{value.title} <span className='ml-2'><Link style={{color: "#000"}} to={`/edit-task/${project[i].title}/${value.title}`}><FontAwesomeIcon icon={faPen} /></Link></span></p>
-                                  <div>
-                                    <span className='mr-2'><input type="number" defaultValue={value.score_obtained} onChange={(e)=>{
-                                      setMarks(e.target.value)
-                                      setTitle(value.title)
-                                    }} className='scoreInput mr-1' />/{value.max_score}</span>
-                                    <span><button className='markButton' style={load?{cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{ cursor:'pointer'}} onClick={(e)=>{
-                                      mark(value.title)
-                                    }} >Mark</button></span>
-                                  </div>
-                                </div>
-                                  <p className=''>Due {
-                                    formattedDatetime
-                                   
-                                  }</p>
-                                  <div className='mb-3'>
+                              <div className='mt-4 row' key={index}>
+                                <div className='col-lg-7'>
+                                    <div className='d-flex justify-content-between'>
+                                      <p className='task_title'>{value.completed?<span className='mr-2' style={{color: 'green'}} ><FontAwesomeIcon icon={faCircleCheck} /></span>:<span className='mr-2' style={{color: 'orange'}}><FontAwesomeIcon icon={faHourglassEnd} /></span>}{value.title} <span className='ml-2'><Link style={{color: "#000"}} to={`/edit-task/${project[i].title}/${value.title}`}><FontAwesomeIcon icon={faPen} /></Link></span></p>
+                                      
+                                      
+                                    </div>
+                                      <p className=''>Due {
+                                        formattedDatetime
+                                      
+                                      }</p>
+                                      <div className='mb-3'>
 
-                                    {(value.works.length>0)?value.works.map((val, index)=>{
-                                      // console.log(val)
-                                        return (
-                                            <button className='file mb-2 mr-2' key={index} onClick={()=>{
-                                              get_pdf(project.title, value.title, val).then((results)=>{
-                                                window.scrollTo(0,0)
-                                                setFile(results.data.file) 
-                                                document.body.style.overflow = "hidden"
-                                              })
-                                            }}>
-                                                <FontAwesomeIcon icon={faFile} /> {val.slice(6,)}
-                                            </button>
-                                        )
+                                        {(value.works.length>0)?value.works.map((val, index)=>{
+                                          // console.log(val)
+                                            return (
+                                                <button className='file mb-2 mr-2' key={index} onClick={()=>{
+                                                  get_pdf(project.title, value.title, val).then((results)=>{
+                                                    window.scrollTo(0,0)
+                                                    setFile(results.data.file) 
+                                                    document.body.style.overflow = "hidden"
+                                                  })
+                                                }}>
+                                                    <FontAwesomeIcon icon={faFile} /> {val.slice(6,)}
+                                                </button>
+                                            )
+                                        }):<></>}
+
+                                      </div>
+                                    <div>
+                                      <p className='task_description'>{value.description}</p>
+                                    </div>
+                                </div>
+                        
+                                
+
+                                <div className='col-lg-5 d-flex flex-column align-items-end pr-4'>
+                                  {project[i].users?project[i].users.map((val, index)=>{
+                                    let marks = 0
+                                    value.marks.map((vall, index)=>{
+                                      console.log(vall.user.name, val.name)
+                                      if(vall.user.name==val.name){
+                                         marks = vall.marks
+                                      }
+                                    })
+                                    console.log(marks)
+                                      return (
+                                        val.account_type!="guide"?
+                                        <div>
+                                        <span className='mr-3'>{val.name}</span>
+                                        <span className='mr-2'><input type="number" defaultValue={marks} onChange={(e)=>{
+                                          setMarks(e.target.value)
+                                          setTitle(value.title)
+                                        }} className='scoreInput mr-1' />/{value.max_score}</span>
+                                        <span><button className='markButton' style={load?{cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{ cursor:'pointer'}} onClick={(e)=>{
+                                          mark(value.title,val.email)
+                                        }} >Mark</button></span>
+                                      </div>
+                                      :<></>
+                                        
+                                      )
                                     }):<></>}
-
                                   </div>
-                                <div>
-                                  <p className='task_description'>{value.description}</p>
-                                </div>
                               </div>
                             )
                           }):'':<></>}
