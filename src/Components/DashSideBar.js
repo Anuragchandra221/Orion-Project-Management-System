@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGauge, faPersonChalkboard, faUser, faRightFromBracket, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginContext } from '../App'
-
+import jwt_decode from "jwt-decode";
+import { get_token } from '../Utils/services'
 function DashSideBar() {
 
     const navigate = useNavigate()
     const [user, setUser] = useContext(loginContext)
-
+    console.log(get_token())
+    const name = jwt_decode(get_token()).name
     console.log(user)
 
   return (
@@ -22,6 +24,11 @@ function DashSideBar() {
 
             navigate("/login")
         }} ><FontAwesomeIcon icon={faRightFromBracket}/> </button>
+        </div>
+        <div className='mt-3'>
+            {
+                name
+            }
         </div>
         <div className='menus'>
             <div className='sidebarItem mt-3 mt-lg-5'>
