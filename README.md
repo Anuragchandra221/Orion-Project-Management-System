@@ -7,7 +7,8 @@ Orion Management is a **Project** **Management** **System**  I did as a freelanc
 ![Screenshot (41)](https://github.com/Anuragchandra221/Orion-Project-Management-System/assets/66366665/1a6682b5-f78d-481e-a1ce-e0226da84f01)
 ![Screenshot (45)](https://github.com/Anuragchandra221/Orion-Project-Management-System/assets/66366665/97ddcce9-ddd6-47ca-bdfc-40335a5942d6)
 
-The backend code for this is in my profile as well. Unfortunately it is a private repo.
+The backend code for this is in my profile as well. 
+Find it here https://github.com/Anuragchandra221/Orion-management-backend
 
 Feel free to clone the repo
  
