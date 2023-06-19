@@ -14,7 +14,8 @@ Feel free to clone the repo
 
 Make sure that the base url in src/Utils/constants.js points to the port where your backend server is running.
  
- ## npm install
- ## npm start
+```npm install```
+
+```npm start```
  
  And that's it, you are good to go!!
