@@ -17,6 +17,7 @@ function AssignTask() {
     const [description, setDescription] = useState()
     const [date, setDate] = useState()
     const [due_time, setDueTime] = useState()
+    const [max_score, setMaxScore] = useState()
     const [project, setProject] = useState()
 
     const navigate = useNavigate()
@@ -45,7 +46,7 @@ function AssignTask() {
         // 2020-08-04T00:00:00Z
         const new_due = date+'T'+due_time+"Z"
         console.log(title, description, new_due)
-        create_task(paramEmail, title, description, new_due).then((results)=>{
+        create_task(paramEmail, title, description, new_due, max_score).then((results)=>{
             if(results.data.msg){
                 navigate('/dashboardg')
             }else{
@@ -89,6 +90,12 @@ function AssignTask() {
                             <p className='mb-1'>Time</p>
                             <input type="time" placeholder='Due date' onChange={(e)=>{
                                 setDueTime(e.target.value)
+                            }} />
+                        </div>
+                        <div className='mt-4 addcooitem'>
+                            <p className='mb-1'>Maximum Score</p>
+                            <input type="number" placeholder='Maximum Score' onChange={(e)=>{
+                                setMaxScore(e.target.value)
                             }} />
                         </div>
                     </div>

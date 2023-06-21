@@ -174,12 +174,13 @@ const start_project = (title, description, guide, student1, student2, student3, 
     )
 }
 
-const create_task = (project_title, task_title, description, due_date)=>{
+const create_task = (project_title, task_title, description, due_date, max_score)=>{
     return axios.post(`${PROJECT_BASE_URL}${CREATE_TASK}`,{
         "project_title": project_title,
         'task_title': task_title,
         'description': description,
-        'due_date': due_date
+        'due_date': due_date,
+        'max_score': max_score
     },{
         headers:{
             'Authorization': `Bearer ${get_token()}`

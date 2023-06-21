@@ -153,7 +153,7 @@ function GuideDashboard() {
                                           // console.log(val)
                                             return (
                                                 <button className='file mb-2 mr-2' key={index} onClick={()=>{
-                                                  get_pdf(project.title, value.title, val).then((results)=>{
+                                                  get_pdf(project[i].title, value.title, val).then((results)=>{
                                                     window.scrollTo(0,0)
                                                     setFile(results.data.file) 
                                                     document.body.style.overflow = "hidden"
