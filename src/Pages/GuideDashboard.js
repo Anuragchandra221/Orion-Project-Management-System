@@ -192,7 +192,7 @@ function GuideDashboard() {
                                         }} className='scoreInput mr-1' />/{value.max_score}</span>
                                         <span><button className='markButton' style={load?{cursor:'not-allowed', backgroundColor: '#c0c0c0', border: 'none'}:{ cursor:'pointer'}} onClick={(e)=>{
                                           mark(value.title,val.email)
-                                        }} >Mark</button></span>
+                                        }} >Submit</button></span>
                                       </div>
                                       :<></>
                                         

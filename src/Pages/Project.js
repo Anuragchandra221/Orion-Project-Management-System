@@ -79,6 +79,23 @@ function Project() {
                                       )
                                     }):<></>}
                                   </ol>
+                                  <div><p className='newHeading ml-4 item mb-2'>Tasks</p></div>
+                                  <ol>
+                                  {project.tasks?project.tasks.map((task, i)=>{
+                                        return(
+                                          <div key={i} className=' mx-1 mx-lg-4 mx-3 '>
+                                            <li>{task.title}</li>
+                                            <ul>
+                                              {task.marks?task.marks.map((val, index)=>{
+                                                return(
+                                                  <li>{val.user.name} - {val.marks}/{task.max_score}</li>
+                                                )
+                                              }):<></>}
+                                            </ul>
+                                          </div>
+                                        )
+                                      }):<></>}
+                                  </ol>
                                 </div>
                             )
                           }):<></>}
